@@ -1,0 +1,182 @@
+{
+  "type": "Column",
+  "children": [
+    {
+      "type": "Container",
+      "padding": "15.0,15.0,15.0,15.0",
+      "child": {
+        "type": "Column",
+        "children": [
+          {
+            "type": "Container",
+            "child": {
+              "type": "Column",
+              "crossAxisAlignment": "start",
+              "children": [
+                {
+                  "type": "Container",
+                  "child": {
+                    "type": "SchemaText",
+                    "style": {"type": "TextStyle", "fontSize": 25.0},
+                    "propertyAddress": "title"
+                  }
+                },
+                {"type": "Divider", "color": "#000000"},
+                {
+                  "type": "Container",
+                  "child": {
+                    "type": "SchemaText",
+                    "style": {"type": "TextStyle", "fontSize": 15.0},
+                    "propertyAddress": "description"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "SchemaForm",
+            "autovalidate": false,
+            "child": {
+              "type": "Container",
+              "padding": "10.0,10.0,10.0,10.0",
+              "child": {
+                "type": "Column",
+                "mainAxisAlignment": "start",
+                "crossAxisAlignment": "start",
+                "children": [
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "higroup"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "password",
+					  "obscureText": true
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "email",
+					  "keyboardType": "emailAddress"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "url",
+					  "keyboardType": "url"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "tareatexttest",
+					  "keyboardType": "multiline",
+					  "maxLines": 10
+					}
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaColumnRadioListTileFormField",
+                      "key": "radiobuton1"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaColumnRadioListTileFormField",
+                      "key": "radiobuton2"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaSwitchFormField",
+                      "key": "switch"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaCheckboxFormField",
+                      "key": "Checkbox"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaCheckboxFormField",
+                      "key": "Checkbox1"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaDropdownButtonFormField",
+                      "key": "dropdownstring"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaDropdownButtonFormField",
+                      "key": "dropdownnumber"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "date",
+					  "datePicker": "Date",
+					  "format": "dd/MM/yyyy",
+                      "locale": "pt_BR"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "datetime",
+					  "datePicker": "DateTime",
+					  "format": "dd/MM/yyyy HH:mm:ss",
+                      "locale": "pt_BR"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "SchemaTextFormField",
+                      "key": "time",
+					  "datePicker": "Time",
+					  "format": "HH:mm:ss",
+                      "locale": "pt_BR"
+                    }
+                  },
+                  {
+                    "type": "Container",
+                    "child": {
+                      "type": "RaisedButton",
+                      "click_event": "SchemaForm://submit",
+                      "child": {"type": "Text", "data": "Submit"}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
