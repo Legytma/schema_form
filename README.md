@@ -1,4 +1,4 @@
-# Convert Json Schema to Form  for Flutter apps.
+# Convert Json Schema to Form for Flutter apps.
 
 A flutter plugin to use convert Json Schema to Form
 * [Example](https://github.com/Legytma/schema_form/tree/master/example)
@@ -15,7 +15,7 @@ A flutter plugin to use convert Json Schema to Form
 * Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  schema_form: "^0.0.1"
+  schema_form: "^0.0.2"
 ```
 * You can install packages from the command line:
   with Flutter:
