@@ -12,6 +12,7 @@ class JsonSchemaForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: close_sinks
     final JsonSchemaBloc jsonSchemaBloc =
         BlocProvider.of<JsonSchemaBloc>(context);
 
@@ -74,6 +75,7 @@ class JsonSchemaForm extends StatelessWidget {
 
   Widget getTextField(
       MapEntry<String, JsonSchema> mapEntry, BuildContext context) {
+    // ignore: close_sinks
     final JsonSchemaBloc jsonSchemaBloc =
         BlocProvider.of<JsonSchemaBloc>(context);
 
@@ -110,6 +112,7 @@ class JsonSchemaForm extends StatelessWidget {
 
   Widget getCheckBox(
       MapEntry<String, JsonSchema> mapEntry, BuildContext context) {
+    // ignore: close_sinks
     final JsonSchemaBloc jsonSchemaBloc =
         BlocProvider.of<JsonSchemaBloc>(context);
 

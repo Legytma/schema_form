@@ -10,3 +10,8 @@
 ## [0.0.3] - 2019-11-04
 
 * Added new dependencies and upgrade package dependencies to publish
+
+## [0.1.0] - 2019-11-04
+
+* Remotion of warnings;
+* Release;
