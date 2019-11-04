@@ -122,7 +122,7 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
         return null;
       },
       onSaved: (T value) {
-        jsonSchemaBloc.dispatch(
+        jsonSchemaBloc.add(
           ChangeValueJsonSchemaEvent(
             key: map['key'],
             value: value,
@@ -132,7 +132,7 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
         return;
       },
       onChanged: (T value) {
-        jsonSchemaBloc.dispatch(
+        jsonSchemaBloc.add(
           ChangeValueJsonSchemaEvent(
             key: map['key'],
             value: value,

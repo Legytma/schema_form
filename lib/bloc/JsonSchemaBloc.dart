@@ -37,7 +37,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
   }
 
   JsonSchema getPropertySchema(String fieldName) =>
-      currentState?.dataSchema?.properties[fieldName];
+      state?.dataSchema?.properties[fieldName];
 
   Stream<dynamic> getFieldStream(String fieldName) =>
       _formData[fieldName].stream;
@@ -47,34 +47,35 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     properties?.forEach((key, prop) {
       print("Creating: $key");
       print("prop: $prop");
-      print("currentState.data: ${currentState.data}");
-      print("currentState.data[key]: ${currentState.data[key]}");
+      print("currentState.data: ${state.data}");
+      print("currentState.data[key]: ${state.data[key]}");
       print(
-          "currentState.data[key] ?? prop.defaultValue: ${currentState.data[key] ?? prop.defaultValue}");
-      _formData[key] = BehaviorSubject<dynamic>.seeded(
-          currentState.data[key] ?? prop.defaultValue);
+          "currentState.data[key] ?? prop.defaultValue: ${state.data[key] ?? prop.defaultValue}");
+      _formData[key] =
+          BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
       print("Created: $key");
     });
   }
 
   String getFormData() {
     if (validate()) {
-      return json.encode(currentState.data);
+      return json.encode(state.data);
     }
 
     return "Não foi possível validar os dados";
   }
 
   bool validate() {
-    print("_data: ${currentState.data}");
-    return currentState.dataSchema == null
+    print("_data: ${state.data}");
+    return state.dataSchema == null
         ? false
-        : currentState.dataSchema
-            .validate(currentState.data, reportMultipleErrors: true);
+        : state.dataSchema.validate(state.data, reportMultipleErrors: true);
   }
 
-  dispose() {
+  close() {
     _formDataClose();
+
+    super.close();
   }
 
   void _formDataClose() {
@@ -101,7 +102,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
       initDataBinding(event.dataSchema?.properties);
 
-      yield currentState.copyWith(dataSchema: event.dataSchema);
+      yield state.copyWith(dataSchema: event.dataSchema);
       print("LoadJsonSchemaEvent executed");
 //
 //      currentState.data?.forEach((key, value) {
@@ -111,19 +112,19 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 //        }
 //      });
     } else if (event is LoadDataEvent) {
-      Map<String, dynamic> currentData = event.data ?? currentState.data;
+      Map<String, dynamic> currentData = event.data ?? state.data;
 
       currentData?.forEach((key, value) {
         if (_formData.containsKey(key)) {
           _formData[key].add(value);
-          print("Loaded(key: ${key}, value: ${value})");
+          print("Loaded(key: $key, value: $value)");
         }
       });
 
-      yield currentState.copyWith(data: event.data);
+      yield state.copyWith(data: event.data);
       print("LoadDataEvent executed");
     } else if (event is LoadLayoutSchemaEvent) {
-      yield currentState.copyWith(layout: event.layout);
+      yield state.copyWith(layout: event.layout);
       print("LoadLayoutSchemaEvent executed");
     } else if (event is ChangeValueJsonSchemaEvent) {
       print("event.key: ${event.key}, event.value: ${event.value}");
@@ -132,15 +133,15 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
         _formData[event.key].add(event.value);
       }
 
-      Map<String, dynamic> currentData = currentState.data;
+      Map<String, dynamic> currentData = state.data;
 
       currentData[event.key] = event.value;
 
       print("ChangeValueJsonSchemaEvent executed");
-      yield currentState.copyWith(data: currentData);
+      yield state.copyWith(data: currentData);
     } else if (event is SubmitJsonSchemaEvent) {
       try {
-        print("currentState.data: ${currentState.data}");
+        print("currentState.data: ${state.data}");
 
         FormState formState = formKey?.currentState ?? Form.of(formContext);
 
@@ -151,10 +152,10 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
           formState.save();
 
-          Validator validator = new Validator(currentState.dataSchema);
+          Validator validator = new Validator(state.dataSchema);
 
-          if (validator.validate(currentState.data)) {
-            _submitData.add(json.encode(currentState.data));
+          if (validator.validate(state.data)) {
+            _submitData.add(json.encode(state.data));
           } else {
             _submitData.add(validator.errors.toString());
           }
@@ -165,7 +166,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
         _submitData.add(e.toString());
       }
 
-      yield currentState;
+      yield state;
     }
   }
 
@@ -174,7 +175,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     if ('SchemaForm://submit' == event) {
       print("Executing: $event");
 
-      dispatch(SubmitJsonSchemaEvent());
+      add(SubmitJsonSchemaEvent());
     } else {
       print("Click event not implemented: $event");
     }

@@ -41,7 +41,7 @@ class SchemaSwitchFormFieldParser extends WidgetParser {
             return null;
           },
           onSaved: (bool value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],
                 value: value,
@@ -51,7 +51,7 @@ class SchemaSwitchFormFieldParser extends WidgetParser {
             return;
           },
           onChange: (value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],
                 value: value,

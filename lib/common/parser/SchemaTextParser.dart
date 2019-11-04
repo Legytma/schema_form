@@ -18,8 +18,7 @@ class SchemaTextParser implements WidgetParser {
         BlocProvider.of<JsonSchemaBloc>(buildContext);
 
     List<String> addressList = map['propertyAddress'].toString().split(".");
-    Map<String, dynamic> schemaMap =
-        jsonSchemaBloc.currentState.dataSchema?.schemaMap;
+    Map<String, dynamic> schemaMap = jsonSchemaBloc.state.dataSchema?.schemaMap;
     dynamic value =
         schemaMap == null ? '' : _getSchemaValue(schemaMap, addressList, 0);
     print("propertyAddress: ${map['propertyAddress']}");

@@ -128,7 +128,7 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
             return null;
           },
           onSaved: (T value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],
                 value: value,
@@ -138,7 +138,7 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
             return;
           },
           onChange: (value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],
                 value: value,
