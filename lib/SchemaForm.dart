@@ -1,6 +1,6 @@
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc_extensions/flutter_bloc_extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schema_form/bloc/JsonSchemaBl.dart';
 import 'package:schema_form/common/parser/DividerParser.dart';
 import 'package:schema_form/common/parser/SchemaCheckboxFormFieldParser.dart';
@@ -36,20 +36,19 @@ class SchemaForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DisposableBlocProvider<JsonSchemaBloc>(
-      blocFactory: () => jsonSchemaBloc,
-      child: BlocProjectionBuilder<JsonSchemaEvent, JsonSchemaState,
-          Map<String, dynamic>>(
+    return BlocProvider<JsonSchemaBloc>(
+      builder: (BuildContext buildContext) => jsonSchemaBloc,
+      child: BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
         bloc: jsonSchemaBloc,
-        converter: (state) {
+        condition: (previousState, state) {
 //              print("state.layout: ${state.layout}");
 
-          return state.layout;
+          return previousState.layout != state.layout;
         },
-        builder: (context, layout) {
+        builder: (context, state) {
 //              print("layout: $layout");
 
-          if (layout == null) {
+          if (state.layout == null) {
             return Container(
               child: Center(
                 child: CircularProgressIndicator(),
@@ -58,7 +57,7 @@ class SchemaForm extends StatelessWidget {
           } else {
             return SingleChildScrollView(
               child: DynamicWidgetBuilder.buildFromMap(
-                layout,
+                state.layout,
                 context,
                 jsonSchemaBloc,
               ),

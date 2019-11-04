@@ -1,8 +1,6 @@
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_extensions/flutter_bloc_extensions.dart';
-import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/JsonSchemaBl.dart';
 
 class SchemaFormParser extends WidgetParser {
@@ -19,13 +17,12 @@ class SchemaFormParser extends WidgetParser {
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    BlocProjectionBuilder blocProjectionBuilder =
-        BlocProjectionBuilder<JsonSchemaEvent, JsonSchemaState, JsonSchema>(
+    BlocBuilder blocBuilder = BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
       bloc: jsonSchemaBloc,
-      converter: (state) {
+      condition: (previousState, state) {
 //          print("state.dataSchema: ${state.dataSchema}");
 
-        return state.dataSchema;
+        return previousState.dataSchema != state.dataSchema;
       },
       builder: (context, dataSchema) {
 //          print("dataSchema: $dataSchema");
@@ -65,6 +62,6 @@ class SchemaFormParser extends WidgetParser {
       },
     );
 
-    return blocProjectionBuilder;
+    return blocBuilder;
   }
 }

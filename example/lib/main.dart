@@ -76,16 +76,16 @@ class MyApp extends StatelessWidget {
   void loadSchemasFrom(FileLocate fileLocate, BuildContext context,
       JsonSchemaBloc jsonSchemaBloc) {
     loadJsonFrom(fileLocate, context, "testLayoutSchema.json").then(
-        (Map<String, dynamic> layoutSchema) => jsonSchemaBloc
-            .dispatch(LoadLayoutSchemaEvent(layout: layoutSchema)));
+        (Map<String, dynamic> layoutSchema) =>
+            jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchema)));
 
     loadJsonFrom(fileLocate, context, "testDataSchema.json").then(
-        (Map<String, dynamic> jsonMap) => jsonSchemaBloc.dispatch(
+        (Map<String, dynamic> jsonMap) => jsonSchemaBloc.add(
             LoadDataSchemaEvent(dataSchema: JsonSchema.createSchema(jsonMap))));
 
     loadJsonFrom(fileLocate, context, "testDataValue.json").then(
         (Map<String, dynamic> dataValue) =>
-            jsonSchemaBloc.dispatch(LoadDataEvent(data: dataValue)));
+            jsonSchemaBloc.add(LoadDataEvent(data: dataValue)));
   }
 
   Future<Map<String, dynamic>> loadJsonFrom(

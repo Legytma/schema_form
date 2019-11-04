@@ -5,6 +5,8 @@ class ChangeValueJsonSchemaEvent extends JsonSchemaEvent {
   final String key;
   final dynamic value;
 
-  ChangeValueJsonSchemaEvent({@required this.key, @required this.value})
-      : super([key, value]);
+  ChangeValueJsonSchemaEvent({@required this.key, @required this.value});
+
+  @override
+  List<Object> get props => [key, value];
 }

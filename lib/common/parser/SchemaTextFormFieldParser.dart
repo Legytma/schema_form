@@ -37,7 +37,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
             selection: TextSelection.collapsed(offset: currentValue.length),
           )),
           onSaved: (value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],
                 value: _dataConverted(map, value, false),
@@ -148,7 +148,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
               );
               print("selectedDateTime: $selectedDateTime");
 
-              jsonSchemaBloc.dispatch(
+              jsonSchemaBloc.add(
                 ChangeValueJsonSchemaEvent(
                   key: map['key'],
                   value: selectedDateTime.toString(),
@@ -177,7 +177,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
                   );
                   print("selectedDateTime: $selectedDateTime");
 
-                  jsonSchemaBloc.dispatch(
+                  jsonSchemaBloc.add(
                     ChangeValueJsonSchemaEvent(
                       key: map['key'],
                       value: selectedDateTime.toString(),
@@ -185,7 +185,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
                   );
                 });
               } else {
-                jsonSchemaBloc.dispatch(
+                jsonSchemaBloc.add(
                   ChangeValueJsonSchemaEvent(
                     key: map['key'],
                     value: selectedDate.toString(),

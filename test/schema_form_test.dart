@@ -6,6 +6,8 @@ void main() {
   test('adds one to input values', () {
     JsonSchemaBloc jsonSchemaBloc = JsonSchemaBloc(formContext: null);
 
-    final json_to_form = new SchemaForm(jsonSchemaBloc: jsonSchemaBloc);
+    final schemaForm = new SchemaForm(jsonSchemaBloc: jsonSchemaBloc);
+
+    print("schemaForm: $schemaForm");
   });
 }
