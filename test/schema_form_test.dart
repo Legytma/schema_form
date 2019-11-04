@@ -9,5 +9,7 @@ void main() {
     final schemaForm = new SchemaForm(jsonSchemaBloc: jsonSchemaBloc);
 
     print("schemaForm: $schemaForm");
+
+    jsonSchemaBloc.close();
   });
 }
