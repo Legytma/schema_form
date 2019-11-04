@@ -15,7 +15,7 @@ A flutter plugin to use convert Json Schema to Form
 * Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  schema_form: "^0.0.2"
+  schema_form: "^0.0.3"
 ```
 * You can install packages from the command line:
   with Flutter:

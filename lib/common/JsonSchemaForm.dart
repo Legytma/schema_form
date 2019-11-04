@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_extensions/flutter_bloc_extensions.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/JsonSchemaBl.dart';
 import 'package:schema_form/common/control/CheckboxFormField.dart';
@@ -16,17 +15,17 @@ class JsonSchemaForm extends StatelessWidget {
     final JsonSchemaBloc jsonSchemaBloc =
         BlocProvider.of<JsonSchemaBloc>(context);
 
-    return BlocProjectionBuilder<JsonSchemaEvent, JsonSchemaState, JsonSchema>(
+    return BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
       bloc: jsonSchemaBloc,
-      converter: (state) {
+      condition: (previousState, state) {
 //        print("state.jsonSchema: ${state.jsonSchema}");
 
-        return state.dataSchema;
+        return previousState.dataSchema != state.dataSchema;
       },
-      builder: (context, jsonSchema) {
+      builder: (context, event) {
 //        print("jsonSchema: $jsonSchema");
 
-        if (jsonSchema == null) {
+        if (event.dataSchema == null) {
           return Container(
             child: Center(
               child: CircularProgressIndicator(),
@@ -40,7 +39,8 @@ class JsonSchemaForm extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: jsonSchema.properties.entries.map<Widget>((item) {
+                children:
+                    event.dataSchema.properties.entries.map<Widget>((item) {
                   return getWidget(context, item);
                 }).toList(),
               ),
@@ -80,7 +80,7 @@ class JsonSchemaForm extends StatelessWidget {
     return Container(
       child: TextFormField(
         onSaved: (value) {
-          jsonSchemaBloc.dispatch(
+          jsonSchemaBloc.add(
             ChangeValueJsonSchemaEvent(
               key: mapEntry.key,
               value: value,
@@ -133,7 +133,7 @@ class JsonSchemaForm extends StatelessWidget {
             return null;
           },
           onSaved: (bool value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: mapEntry.key,
                 value: value,
@@ -143,7 +143,7 @@ class JsonSchemaForm extends StatelessWidget {
             return;
           },
           onChange: (value) {
-            jsonSchemaBloc.dispatch(
+            jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: mapEntry.key,
                 value: value,

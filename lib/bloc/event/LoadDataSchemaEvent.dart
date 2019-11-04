@@ -5,5 +5,8 @@ import 'package:schema_form/bloc/event/JsonSchemaEvent.dart';
 class LoadDataSchemaEvent extends JsonSchemaEvent {
   final JsonSchema dataSchema;
 
-  LoadDataSchemaEvent({@required this.dataSchema}) : super([dataSchema]);
+  LoadDataSchemaEvent({@required this.dataSchema});
+
+  @override
+  List<Object> get props => [dataSchema];
 }

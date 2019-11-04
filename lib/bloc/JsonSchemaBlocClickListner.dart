@@ -11,7 +11,7 @@ class JsonSchemaBlocClickListener implements ClickListener {
     if ('SchemaForm://submit' == event) {
       print("Executing: $event");
 
-      _jsonSchemaBloc.dispatch(SubmitJsonSchemaEvent());
+      _jsonSchemaBloc.add(SubmitJsonSchemaEvent());
     } else {
       print("Click event not implemented: $event");
     }

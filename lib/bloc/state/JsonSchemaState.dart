@@ -13,7 +13,7 @@ class JsonSchemaState extends Equatable {
     @required this.layout,
     @required this.data,
     @required this.submitData,
-  }) : super([dataSchema, layout, data, submitData]);
+  });
 
   factory JsonSchemaState.initial() {
     return JsonSchemaState(
@@ -37,4 +37,7 @@ class JsonSchemaState extends Equatable {
       submitData: submitData ?? this.submitData,
     );
   }
+
+  @override
+  List<Object> get props => [dataSchema, layout, data, submitData];
 }
