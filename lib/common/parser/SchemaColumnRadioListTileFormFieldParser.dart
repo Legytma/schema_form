@@ -16,6 +16,7 @@ class SchemaColumnRadioListTileFormFieldParser
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
+    // ignore: close_sinks
     final JsonSchemaBloc jsonSchemaBloc =
         BlocProvider.of<JsonSchemaBloc>(buildContext);
 
