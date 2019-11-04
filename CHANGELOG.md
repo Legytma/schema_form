@@ -9,4 +9,4 @@
 
 ## [0.0.3] - 2019-11-04
 
-* Added dependencies to publish
+* Added new dependencies and upgrade package dependencies to publish
