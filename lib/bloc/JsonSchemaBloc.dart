@@ -72,10 +72,10 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
         : state.dataSchema.validate(state.data, reportMultipleErrors: true);
   }
 
-  close() {
-    _formDataClose();
+  Future<void> close() async {
+    await new Future(() => _formDataClose());
 
-    super.close();
+    await super.close();
   }
 
   void _formDataClose() {
