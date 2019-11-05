@@ -13,5 +13,5 @@
 
 ## [0.1.0] - 2019-11-04
 
-* Remotion of warnings;
+* Remoting warnings;
 * Release;
