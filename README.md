@@ -1,3 +1,14 @@
+[![GitHub issues](https://img.shields.io/github/issues/Legytma/schema_form)](https://github.com/Legytma/schema_form/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Legytma/schema_form)](https://github.com/Legytma/schema_form/network)
+[![GitHub stars](https://img.shields.io/github/stars/Legytma/schema_form)](https://github.com/Legytma/schema_form/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Legytma/schema_form)](https://github.com/Legytma/schema_form/blob/master/LICENSE)
+[![Pub](https://img.shields.io/pub/v/schema_form)](https://pub.dev/packages/schema_form)
+[![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/Legytma/schema_form)
+![GitHub top language](https://img.shields.io/github/languages/top/Legytma/schema_form)
+![GitHub contributors](https://img.shields.io/github/contributors/Legytma/schema_form)
+![GitHub last commit](https://img.shields.io/github/last-commit/Legytma/schema_form)
+
 # Convert Json Schema to Form for Flutter apps.
 
 A flutter plugin to use convert Json Schema to Form
