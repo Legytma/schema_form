@@ -1,6 +1,6 @@
 name: schema_form
 description: A flutter plugin to use convert Json schema to Form Basic
-version: 0.1.0
+version: 0.1.1
 author: Alex Manoel Ferreira Silva <windolboy@gmail.com>
 homepage: https://github.com/Legytma/schema_form
 
