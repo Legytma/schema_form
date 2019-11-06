@@ -1,5 +1,5 @@
 import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
 class JsonSchemaBlocClickListener implements ClickListener {
   final JsonSchemaBloc _jsonSchemaBloc;

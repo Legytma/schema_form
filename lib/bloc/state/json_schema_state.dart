@@ -19,12 +19,12 @@ class JsonSchemaState extends Equatable {
     return JsonSchemaState(
       dataSchema: null,
       layout: null,
-      data: Map<String, dynamic>(),
+      data: <String, dynamic>{},
       submitData: null,
     );
   }
 
-  copyWith({
+  JsonSchemaState copyWith({
     JsonSchema dataSchema,
     Map<String, dynamic> layout,
     Map<String, dynamic> data,

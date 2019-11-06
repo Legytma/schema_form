@@ -1,4 +1,4 @@
-import 'package:schema_form/bloc/event/JsonSchemaEvent.dart';
+import 'package:schema_form/bloc/event/json_schema_event.dart';
 
 class SubmitJsonSchemaEvent extends JsonSchemaEvent {
   SubmitJsonSchemaEvent();

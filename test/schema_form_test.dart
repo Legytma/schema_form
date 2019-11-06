@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:schema_form/SchemaForm.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/schema_form.dart';
 
 void main() {
   test('adds one to input values', () {
-    JsonSchemaBloc jsonSchemaBloc = JsonSchemaBloc(formContext: null);
+    var jsonSchemaBloc = JsonSchemaBloc(formContext: null);
 
-    final schemaForm = new SchemaForm(jsonSchemaBloc: jsonSchemaBloc);
+    final schemaForm = SchemaForm(jsonSchemaBloc: jsonSchemaBloc);
 
     print("schemaForm: $schemaForm");
 

@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
-import 'package:schema_form/common/parseUtils.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/common/parse_utils.dart';
 
 class SchemaTextFormFieldParser extends WidgetParser {
   @override
@@ -17,14 +17,13 @@ class SchemaTextFormFieldParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    final JsonSchema fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
+    final fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
 
-    StreamBuilder streamBuilder = StreamBuilder(
+    var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
         String currentValue = snapshot?.data == null || snapshot?.data == ''
@@ -53,14 +52,14 @@ class SchemaTextFormFieldParser extends WidgetParser {
                 return "Required";
               }
 
-              Validator validator = new Validator(fieldSchema);
+              var validator = Validator(fieldSchema);
 
               if (!validator.validate(_dataConverted(map, value, false))) {
                 return validator.errors.first;
               }
 
               return null;
-            } catch (e) {
+            } on Error catch (e) {
               return e.toString();
             }
           },
@@ -68,9 +67,8 @@ class SchemaTextFormFieldParser extends WidgetParser {
             hintText: fieldSchema.defaultValue != null
                 ? fieldSchema.defaultValue
                 : '',
-            labelText: fieldSchema.requiredOnParent
-                ? fieldSchema.title + ' *'
-                : fieldSchema.title,
+            labelText:
+            fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
             suffixIcon: _sufixButton(
               map,
               context,
@@ -132,14 +130,13 @@ class SchemaTextFormFieldParser extends WidgetParser {
       return FlatButton(
         child: Icon(Icons.calendar_today),
         onPressed: () {
-          DateTime currentDate =
-              _parseDateTime(map, currentValue) ?? DateTime.now();
-          TimeOfDay currentTime = TimeOfDay.fromDateTime(currentDate);
+          var currentDate = _parseDateTime(map, currentValue) ?? DateTime.now();
+          var currentTime = TimeOfDay.fromDateTime(currentDate);
 
           if (map['datePicker'] == "Time") {
             showTimePicker(context: buildContext, initialTime: currentTime)
                 .then((TimeOfDay selectedTime) {
-              DateTime selectedDateTime = DateTime(
+              var selectedDateTime = DateTime(
                 currentDate.year,
                 currentDate.month,
                 currentDate.day,
@@ -168,7 +165,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
               if (map['datePicker'] == "DateTime") {
                 showTimePicker(context: buildContext, initialTime: currentTime)
                     .then((TimeOfDay selectedTime) {
-                  DateTime selectedDateTime = DateTime(
+                  var selectedDateTime = DateTime(
                     selectedDate.year,
                     selectedDate.month,
                     selectedDate.day,
@@ -236,7 +233,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
 
   String _dataConverted(Map<String, dynamic> map, String value, bool view) {
     if (map.containsKey('datePicker')) {
-      DateTime currentConverted = DateTime.tryParse(value);
+      var currentConverted = DateTime.tryParse(value);
 
       if (currentConverted == null) {
         currentConverted = _parseDateTime(map, value);

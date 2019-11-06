@@ -2,7 +2,7 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
 class SchemaDropdownButtonFormFieldParser extends WidgetParser {
   @override
@@ -13,14 +13,13 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    final JsonSchema fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
+    final fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
 
-    StreamBuilder streamBuilder = StreamBuilder(
+    var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
         switch (fieldSchema.type) {
@@ -106,14 +105,13 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
       decoration: InputDecoration(
         hintText:
             fieldSchema.defaultValue != null ? fieldSchema.defaultValue : '',
-        labelText: fieldSchema.requiredOnParent
-            ? fieldSchema.title + ' *'
-            : fieldSchema.title,
+        labelText:
+        fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
       ),
       items: _makeDropdownMenuItems<T>(
           map, buildContext, listener, snapshot, jsonSchemaBloc, fieldSchema),
       validator: (T value) {
-        Validator validator = new Validator(fieldSchema);
+        var validator = Validator(fieldSchema);
 
         if (!validator.validate(value)) {
           return validator.errors.first;
@@ -151,14 +149,13 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
       AsyncSnapshot snapshot,
       JsonSchemaBloc jsonSchemaBloc,
       JsonSchema fieldSchema) {
-    List<DropdownMenuItem<T>> dropdownMenuItems = List<DropdownMenuItem<T>>();
+    var dropdownMenuItems = <DropdownMenuItem<T>>[];
 
     fieldSchema?.schemaMap['list']?.forEach((dynamic value) {
       Widget title;
 
       if (map.containsKey('titleItem')) {
-        Map<String, dynamic> currentItem =
-            Map<String, dynamic>.from(map['titleItem']);
+        var currentItem = Map<String, dynamic>.from(map['titleItem']);
 
         currentItem['data'] = value['title'];
 

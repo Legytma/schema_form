@@ -1,7 +1,7 @@
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
 class SchemaFormParser extends WidgetParser {
   @override
@@ -12,9 +12,7 @@ class SchemaFormParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    // ignore: close_sinks
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 

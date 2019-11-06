@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:schema_form/bloc/event/JsonSchemaEvent.dart';
+import 'package:schema_form/bloc/event/json_schema_event.dart';
 
 class LoadDataEvent extends JsonSchemaEvent {
   final Map<String, dynamic> data;

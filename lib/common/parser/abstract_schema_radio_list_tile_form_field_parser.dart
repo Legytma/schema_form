@@ -2,21 +2,20 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
-import 'package:schema_form/common/control/RadioListFormField.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/common/control/radio_list_form_field.dart';
 
 abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
   List<Widget> parseItems(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    final JsonSchema fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
-    List<Widget> itemsList = List<Widget>();
+    final fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
+    var itemsList = <Widget>[];
 
-    for (int i = 0; i < fieldSchema.enumValues.length; i++) {
+    for (var i = 0; i < fieldSchema.enumValues.length; i++) {
 //    fieldSchema.schemaMap['list'].forEach((dynamic value) {
       Widget item;
 
@@ -108,7 +107,7 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
       String title,
       T value,
       T defaultValue) {
-    StreamBuilder streamBuilder = StreamBuilder(
+    var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
         return RadioListFormField<T>(
@@ -119,7 +118,7 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
               snapshot?.data ?? fieldSchema.defaultValue ?? defaultValue,
           title: title,
           validator: (T value) {
-            Validator validator = new Validator(fieldSchema);
+            var validator = Validator(fieldSchema);
 
             if (!validator.validate(snapshot?.data ?? value)) {
               return validator.errors.first;

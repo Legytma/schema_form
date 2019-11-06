@@ -3,7 +3,7 @@ import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
 class SchemaTextParser implements WidgetParser {
   @override
@@ -14,11 +14,9 @@ class SchemaTextParser implements WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    // ignore: close_sinks
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
-    List<String> addressList = map['propertyAddress'].toString().split(".");
+    var addressList = map['propertyAddress'].toString().split(".");
     Map<String, dynamic> schemaMap = jsonSchemaBloc.state.dataSchema?.schemaMap;
     dynamic value =
         schemaMap == null ? '' : _getSchemaValue(schemaMap, addressList, 0);

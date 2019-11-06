@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/SchemaForm.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/schema_form.dart';
 
 void main() => runApp(MyApp());
 
