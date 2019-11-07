@@ -1,3 +1,19 @@
+/******************************************************************************
+ * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *       http://www.apache.org/licenses/LICENSE-2.0                           *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +60,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
             );
           },
           autovalidate:
-              map.containsKey('autovalidate') ? map['autovalidate'] : false,
+          map.containsKey('autovalidate') ? map['autovalidate'] : false,
           validator: (String value) {
             try {
               if (fieldSchema.requiredOnParent &&
@@ -85,14 +101,14 @@ class SchemaTextFormFieldParser extends WidgetParser {
               ? parseKeyboardAppearance(map['keyboardAppearance'])
               : null,
           obscureText:
-              map.containsKey("obscureText") ? map['obscureText'] : false,
+          map.containsKey("obscureText") ? map['obscureText'] : false,
           readOnly: map.containsKey("readOnly") ? map['readOnly'] : false,
           textCapitalization: map.containsKey("textCapitalization")
               ? parseTextCapitalization(map['textCapitalization'])
               : TextCapitalization.none,
           autofocus: map.containsKey("autofocus") ? map['autofocus'] : false,
           autocorrect:
-              map.containsKey("autocorrect") ? map['autocorrect'] : true,
+          map.containsKey("autocorrect") ? map['autocorrect'] : true,
           enabled: map.containsKey("enabled") ? map['enabled'] : true,
           maxLength: map.containsKey("maxLength") ? map['maxLength'] : null,
           maxLengthEnforced: map.containsKey("maxLengthEnforced")
@@ -117,8 +133,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
     return streamBuilder;
   }
 
-  FlatButton _sufixButton(
-      Map<String, dynamic> map,
+  FlatButton _sufixButton(Map<String, dynamic> map,
       BuildContext buildContext,
       ClickListener listener,
       JsonSchemaBloc jsonSchemaBloc,
