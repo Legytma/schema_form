@@ -1,9 +1,25 @@
+/******************************************************************************
+ * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *       http://www.apache.org/licenses/LICENSE-2.0                           *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
-import 'package:schema_form/common/control/CheckboxFormField.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/common/control/checkbox_form_field.dart';
 
 class JsonSchemaForm extends StatelessWidget {
   final Key formKey;
@@ -13,8 +29,7 @@ class JsonSchemaForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: close_sinks
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(context);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(context);
 
     return BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
       bloc: jsonSchemaBloc,
@@ -41,7 +56,7 @@ class JsonSchemaForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:
-                    event.dataSchema.properties.entries.map<Widget>((item) {
+                event.dataSchema.properties.entries.map<Widget>((item) {
                   return getWidget(context, item);
                 }).toList(),
               ),
@@ -52,8 +67,8 @@ class JsonSchemaForm extends StatelessWidget {
     );
   }
 
-  Widget getWidget(
-      BuildContext context, MapEntry<String, JsonSchema> mapEntry) {
+  Widget getWidget(BuildContext context,
+      MapEntry<String, JsonSchema> mapEntry) {
     print(
         "key: ${mapEntry.key}, title: ${mapEntry.value.title}, type: ${mapEntry.value.type}");
 
@@ -73,11 +88,10 @@ class JsonSchemaForm extends StatelessWidget {
     }
   }
 
-  Widget getTextField(
-      MapEntry<String, JsonSchema> mapEntry, BuildContext context) {
+  Widget getTextField(MapEntry<String, JsonSchema> mapEntry,
+      BuildContext context) {
     // ignore: close_sinks
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(context);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(context);
 
     return Container(
       child: TextFormField(
@@ -90,7 +104,7 @@ class JsonSchemaForm extends StatelessWidget {
           );
         },
         validator: (String value) {
-          Validator validator = new Validator(mapEntry.value);
+          var validator = Validator(mapEntry.value);
 
           if (!validator.validate(value)) {
             return validator.errors.first;
@@ -102,19 +116,17 @@ class JsonSchemaForm extends StatelessWidget {
           hintText: mapEntry.value.defaultValue != null
               ? mapEntry.value.defaultValue
               : '',
-          labelText: mapEntry.value.requiredOnParent
-              ? mapEntry.value.title + ' *'
-              : mapEntry.value.title,
+          labelText: mapEntry.value.title +
+              (mapEntry.value.requiredOnParent ? ' *' : ''),
         ),
       ),
     );
   }
 
-  Widget getCheckBox(
-      MapEntry<String, JsonSchema> mapEntry, BuildContext context) {
+  Widget getCheckBox(MapEntry<String, JsonSchema> mapEntry,
+      BuildContext context) {
     // ignore: close_sinks
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(context);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(context);
 
     return StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(mapEntry.key),
@@ -123,11 +135,10 @@ class JsonSchemaForm extends StatelessWidget {
         return CheckboxFormField(
           autoValidate: false,
           initialValue: snapshot?.data ?? false,
-          title: mapEntry.value.requiredOnParent
-              ? mapEntry.value.title + ' *'
-              : mapEntry.value.title,
+          title: mapEntry.value.title +
+              (mapEntry.value.requiredOnParent ? ' *' : ''),
           validator: (bool value) {
-            Validator validator = new Validator(mapEntry.value);
+            var validator = Validator(mapEntry.value);
 
             if (!validator.validate(value)) {
               return validator.errors.first;

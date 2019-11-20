@@ -19,3 +19,7 @@
 ## [0.1.1] 2019-11-05
 
 * Update to Bloc 2.0.0
+
+## [0.1.2] 2019-11-20
+
+* Update package dependencies

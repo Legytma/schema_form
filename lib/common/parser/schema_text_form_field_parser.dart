@@ -1,3 +1,19 @@
+/******************************************************************************
+ * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *       http://www.apache.org/licenses/LICENSE-2.0                           *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +21,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
-import 'package:schema_form/common/parseUtils.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/common/parse_utils.dart';
 
 class SchemaTextFormFieldParser extends WidgetParser {
   @override
@@ -17,14 +33,13 @@ class SchemaTextFormFieldParser extends WidgetParser {
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    final JsonSchema fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
+    final fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
 
-    StreamBuilder streamBuilder = StreamBuilder(
+    var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
         String currentValue = snapshot?.data == null || snapshot?.data == ''
@@ -45,7 +60,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
             );
           },
           autovalidate:
-              map.containsKey('autovalidate') ? map['autovalidate'] : false,
+          map.containsKey('autovalidate') ? map['autovalidate'] : false,
           validator: (String value) {
             try {
               if (fieldSchema.requiredOnParent &&
@@ -53,14 +68,14 @@ class SchemaTextFormFieldParser extends WidgetParser {
                 return "Required";
               }
 
-              Validator validator = new Validator(fieldSchema);
+              var validator = Validator(fieldSchema);
 
               if (!validator.validate(_dataConverted(map, value, false))) {
                 return validator.errors.first;
               }
 
               return null;
-            } catch (e) {
+            } on Error catch (e) {
               return e.toString();
             }
           },
@@ -68,9 +83,8 @@ class SchemaTextFormFieldParser extends WidgetParser {
             hintText: fieldSchema.defaultValue != null
                 ? fieldSchema.defaultValue
                 : '',
-            labelText: fieldSchema.requiredOnParent
-                ? fieldSchema.title + ' *'
-                : fieldSchema.title,
+            labelText:
+            fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
             suffixIcon: _sufixButton(
               map,
               context,
@@ -87,14 +101,14 @@ class SchemaTextFormFieldParser extends WidgetParser {
               ? parseKeyboardAppearance(map['keyboardAppearance'])
               : null,
           obscureText:
-              map.containsKey("obscureText") ? map['obscureText'] : false,
+          map.containsKey("obscureText") ? map['obscureText'] : false,
           readOnly: map.containsKey("readOnly") ? map['readOnly'] : false,
           textCapitalization: map.containsKey("textCapitalization")
               ? parseTextCapitalization(map['textCapitalization'])
               : TextCapitalization.none,
           autofocus: map.containsKey("autofocus") ? map['autofocus'] : false,
           autocorrect:
-              map.containsKey("autocorrect") ? map['autocorrect'] : true,
+          map.containsKey("autocorrect") ? map['autocorrect'] : true,
           enabled: map.containsKey("enabled") ? map['enabled'] : true,
           maxLength: map.containsKey("maxLength") ? map['maxLength'] : null,
           maxLengthEnforced: map.containsKey("maxLengthEnforced")
@@ -119,8 +133,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
     return streamBuilder;
   }
 
-  FlatButton _sufixButton(
-      Map<String, dynamic> map,
+  FlatButton _sufixButton(Map<String, dynamic> map,
       BuildContext buildContext,
       ClickListener listener,
       JsonSchemaBloc jsonSchemaBloc,
@@ -132,14 +145,13 @@ class SchemaTextFormFieldParser extends WidgetParser {
       return FlatButton(
         child: Icon(Icons.calendar_today),
         onPressed: () {
-          DateTime currentDate =
-              _parseDateTime(map, currentValue) ?? DateTime.now();
-          TimeOfDay currentTime = TimeOfDay.fromDateTime(currentDate);
+          var currentDate = _parseDateTime(map, currentValue) ?? DateTime.now();
+          var currentTime = TimeOfDay.fromDateTime(currentDate);
 
           if (map['datePicker'] == "Time") {
             showTimePicker(context: buildContext, initialTime: currentTime)
                 .then((TimeOfDay selectedTime) {
-              DateTime selectedDateTime = DateTime(
+              var selectedDateTime = DateTime(
                 currentDate.year,
                 currentDate.month,
                 currentDate.day,
@@ -168,7 +180,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
               if (map['datePicker'] == "DateTime") {
                 showTimePicker(context: buildContext, initialTime: currentTime)
                     .then((TimeOfDay selectedTime) {
-                  DateTime selectedDateTime = DateTime(
+                  var selectedDateTime = DateTime(
                     selectedDate.year,
                     selectedDate.month,
                     selectedDate.day,
@@ -236,7 +248,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
 
   String _dataConverted(Map<String, dynamic> map, String value, bool view) {
     if (map.containsKey('datePicker')) {
-      DateTime currentConverted = DateTime.tryParse(value);
+      var currentConverted = DateTime.tryParse(value);
 
       if (currentConverted == null) {
         currentConverted = _parseDateTime(map, value);

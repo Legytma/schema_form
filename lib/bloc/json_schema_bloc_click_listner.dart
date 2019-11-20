@@ -14,18 +14,22 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
+import 'package:dynamic_widget/dynamic_widget.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+class JsonSchemaBlocClickListener implements ClickListener {
+  final JsonSchemaBloc _jsonSchemaBloc;
 
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
+  JsonSchemaBlocClickListener(this._jsonSchemaBloc);
 
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
+  @override
+  void onClicked(String event) {
+    if ('SchemaForm://submit' == event) {
+      print("Executing: $event");
+
+      _jsonSchemaBloc.add(SubmitJsonSchemaEvent());
+    } else {
+      print("Click event not implemented: $event");
+    }
+  }
 }

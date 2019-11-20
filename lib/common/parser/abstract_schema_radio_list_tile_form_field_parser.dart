@@ -1,29 +1,44 @@
+/******************************************************************************
+ * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *       http://www.apache.org/licenses/LICENSE-2.0                           *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
-import 'package:schema_form/common/control/RadioListFormField.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_form/common/control/radio_list_form_field.dart';
 
 abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
   List<Widget> parseItems(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
-    final JsonSchemaBloc jsonSchemaBloc =
-        BlocProvider.of<JsonSchemaBloc>(buildContext);
+    final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
 
-    final JsonSchema fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
-    List<Widget> itemsList = List<Widget>();
+    final fieldSchema = jsonSchemaBloc.getPropertySchema(map['key']);
+    var itemsList = <Widget>[];
 
-    for (int i = 0; i < fieldSchema.enumValues.length; i++) {
+    for (var i = 0; i < fieldSchema.enumValues.length; i++) {
 //    fieldSchema.schemaMap['list'].forEach((dynamic value) {
       Widget item;
 
       var value = fieldSchema.enumValues[i];
       String titleEnum = fieldSchema != null &&
-              fieldSchema.schemaMap.containsKey('titleEnum') &&
-              fieldSchema.schemaMap['titleEnum'].length > i
+          fieldSchema.schemaMap.containsKey('titleEnum') &&
+          fieldSchema.schemaMap['titleEnum'].length > i
           ? fieldSchema.schemaMap['titleEnum'][i]
           : "$value";
 
@@ -99,8 +114,7 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
     return itemsList;
   }
 
-  Widget _makeRadioListTile<T>(
-      Map<String, dynamic> map,
+  Widget _makeRadioListTile<T>(Map<String, dynamic> map,
       BuildContext buildContext,
       ClickListener listener,
       JsonSchemaBloc jsonSchemaBloc,
@@ -108,18 +122,18 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
       String title,
       T value,
       T defaultValue) {
-    StreamBuilder streamBuilder = StreamBuilder(
+    var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
         return RadioListFormField<T>(
           autoValidate:
-              map.containsKey('autovalidate') ? map['autovalidate'] : false,
+          map.containsKey('autovalidate') ? map['autovalidate'] : false,
           radioValue: value,
           initialValue:
-              snapshot?.data ?? fieldSchema.defaultValue ?? defaultValue,
+          snapshot?.data ?? fieldSchema.defaultValue ?? defaultValue,
           title: title,
           validator: (T value) {
-            Validator validator = new Validator(fieldSchema);
+            var validator = Validator(fieldSchema);
 
             if (!validator.validate(snapshot?.data ?? value)) {
               return validator.errors.first;
