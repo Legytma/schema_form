@@ -1,18 +1,16 @@
-/******************************************************************************
- * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
- *                                                                            *
- *  Licensed under the Apache License, Version 2.0 (the "License");           *
- *  you may not use this file except in compliance with the License.          *
- *  You may obtain a copy of the License at                                   *
- *                                                                            *
- *       http://www.apache.org/licenses/LICENSE-2.0                           *
- *                                                                            *
- * Unless required by applicable law or agreed to in writing, software        *
- * distributed under the License is distributed on an "AS IS" BASIS,          *
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
- * See the License for the specific language governing permissions and        *
- * limitations under the License.                                             *
- ******************************************************************************/
+// Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br).
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import 'dart:convert';
 import 'dart:io';
@@ -92,21 +90,20 @@ class MyApp extends StatelessWidget {
   void loadSchemasFrom(FileLocate fileLocate, BuildContext context,
       JsonSchemaBloc jsonSchemaBloc) {
     loadJsonFrom(fileLocate, context, "testLayoutSchema.json").then(
-            (Map<String, dynamic> layoutSchema) =>
+        (Map<String, dynamic> layoutSchema) =>
             jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchema)));
 
     loadJsonFrom(fileLocate, context, "testDataSchema.json").then(
-            (Map<String, dynamic> jsonMap) =>
-            jsonSchemaBloc.add(
-                LoadDataSchemaEvent(dataSchema: JsonSchema.createSchema(jsonMap))));
+        (Map<String, dynamic> jsonMap) => jsonSchemaBloc.add(
+            LoadDataSchemaEvent(dataSchema: JsonSchema.createSchema(jsonMap))));
 
     loadJsonFrom(fileLocate, context, "testDataValue.json").then(
-            (Map<String, dynamic> dataValue) =>
+        (Map<String, dynamic> dataValue) =>
             jsonSchemaBloc.add(LoadDataEvent(data: dataValue)));
   }
 
-  Future<Map<String, dynamic>> loadJsonFrom(FileLocate fileLocate,
-      BuildContext context, String fileName) async {
+  Future<Map<String, dynamic>> loadJsonFrom(
+      FileLocate fileLocate, BuildContext context, String fileName) async {
     switch (fileLocate) {
       case FileLocate.asset:
         return await loadJsonFromAsset(context, 'assets/$fileName');
@@ -121,8 +118,8 @@ class MyApp extends StatelessWidget {
     }
   }
 
-  Future<Map<String, dynamic>> loadJsonFromAsset(BuildContext context,
-      String filePath) async {
+  Future<Map<String, dynamic>> loadJsonFromAsset(
+      BuildContext context, String filePath) async {
     print("filePath: $filePath");
 
     String content = await DefaultAssetBundle.of(context).loadString(filePath);
@@ -134,8 +131,8 @@ class MyApp extends StatelessWidget {
     return jsonMap;
   }
 
-  Future<Map<String, dynamic>> loadJsonFromStorage(BuildContext context,
-      String filePath) async {
+  Future<Map<String, dynamic>> loadJsonFromStorage(
+      BuildContext context, String filePath) async {
     print("filePath: $filePath");
 
     File file = new File(filePath);
@@ -153,8 +150,8 @@ class MyApp extends StatelessWidget {
     throw "File not found!";
   }
 
-  Future<Map<String, dynamic>> loadJsonFromUrl(BuildContext context,
-      String filePath) async {
+  Future<Map<String, dynamic>> loadJsonFromUrl(
+      BuildContext context, String filePath) async {
     print("filePath: $filePath");
 
     String username = '';
