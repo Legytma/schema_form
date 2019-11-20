@@ -14,18 +14,46 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
+import 'package:equatable/equatable.dart';
+import 'package:json_schema/json_schema.dart';
+import 'package:meta/meta.dart';
 
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+class JsonSchemaState extends Equatable {
+  final JsonSchema dataSchema;
+  final Map<String, dynamic> layout;
+  final Map<String, dynamic> data;
+  final String submitData;
 
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
+  JsonSchemaState({
+    @required this.dataSchema,
+    @required this.layout,
+    @required this.data,
+    @required this.submitData,
+  });
 
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
+  factory JsonSchemaState.initial() {
+    return JsonSchemaState(
+      dataSchema: null,
+      layout: null,
+      data: <String, dynamic>{},
+      submitData: null,
+    );
+  }
+
+  JsonSchemaState copyWith({
+    JsonSchema dataSchema,
+    Map<String, dynamic> layout,
+    Map<String, dynamic> data,
+    String submitData,
+  }) {
+    return JsonSchemaState(
+      dataSchema: dataSchema ?? this.dataSchema,
+      layout: layout ?? this.layout,
+      data: data ?? this.data,
+      submitData: submitData ?? this.submitData,
+    );
+  }
+
+  @override
+  List<Object> get props => [dataSchema, layout, data, submitData];
 }

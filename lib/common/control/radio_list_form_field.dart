@@ -14,18 +14,37 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
-
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
-
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
+class RadioListFormField<T> extends FormField<T> {
+  RadioListFormField({
+    FormFieldSetter<T> onSaved,
+    FormFieldValidator<T> validator,
+    T radioValue,
+    T initialValue,
+    VoidCallback onChange(T value),
+    String title = '',
+    bool autoValidate = false,
+  }) : super(
+    onSaved: onSaved,
+    validator: validator,
+    initialValue: initialValue,
+    autovalidate: autoValidate,
+    builder: (FormFieldState<T> state) {
+      return RadioListTile<T>(
+        value: radioValue,
+        groupValue: initialValue,
+        title: Text(title),
+        subtitle: Text(
+          state.hasError ? state.errorText : '',
+          style: TextStyle(color: Color(0xFFd32f2f)),
+        ),
+        onChanged: (T value) {
+          state.didChange(value);
+          onChange(value);
+        },
+      );
+    },
+  );
 }

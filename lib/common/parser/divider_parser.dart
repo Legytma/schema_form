@@ -14,18 +14,26 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
+import 'package:dynamic_widget/dynamic_widget.dart';
+import 'package:dynamic_widget/dynamic_widget/utils.dart';
+import 'package:flutter/material.dart';
 
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+class DividerParser extends WidgetParser {
+  @override
+  bool forWidget(String widgetName) {
+    return "Divider" == widgetName;
+  }
 
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
+  @override
+  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
+      ClickListener listener) {
+    var divider = Divider(
+      color: map.containsKey('color') ? parseHexColor(map['color']) : null,
+      endIndent: map.containsKey('endIndent') ? map['endIndent'] : 0.0,
+      height: map.containsKey('height') ? map['height'] : 16.0,
+      indent: map.containsKey('indent') ? map['indent'] : 0.0,
+    );
 
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
+    return divider;
+  }
 }

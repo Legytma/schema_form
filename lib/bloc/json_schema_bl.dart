@@ -14,18 +14,12 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
-
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
-
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
-
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
-}
+export 'event/change_value_json_schema_event.dart';
+export 'event/json_schema_event.dart';
+export 'event/load_data_event.dart';
+export 'event/load_data_schema_event.dart';
+export 'event/load_layout_schema_event.dart';
+export 'event/submit_json_schema_event.dart';
+export 'json_schema_bloc.dart';
+export 'json_schema_bloc_click_listner.dart';
+export 'state/json_schema_state.dart';

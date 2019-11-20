@@ -14,18 +14,14 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-include ':app'
+import 'package:meta/meta.dart';
+import 'package:schema_form/bloc/event/json_schema_event.dart';
 
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+class LoadLayoutSchemaEvent extends JsonSchemaEvent {
+  final Map<String, dynamic> layout;
 
-def plugins = new Properties()
-def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-if (pluginsFile.exists()) {
-    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-}
+  LoadLayoutSchemaEvent({@required this.layout});
 
-plugins.each { name, path ->
-    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-    include ":$name"
-    project(":$name").projectDir = pluginDirectory
+  @override
+  List<Object> get props => [layout];
 }

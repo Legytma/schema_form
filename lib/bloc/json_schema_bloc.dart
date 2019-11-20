@@ -1,3 +1,19 @@
+/******************************************************************************
+ * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
+ *                                                                            *
+ *  Licensed under the Apache License, Version 2.0 (the "License");           *
+ *  you may not use this file except in compliance with the License.          *
+ *  You may obtain a copy of the License at                                   *
+ *                                                                            *
+ *       http://www.apache.org/licenses/LICENSE-2.0                           *
+ *                                                                            *
+ * Unless required by applicable law or agreed to in writing, software        *
+ * distributed under the License is distributed on an "AS IS" BASIS,          *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
+ * See the License for the specific language governing permissions and        *
+ * limitations under the License.                                             *
+ ******************************************************************************/
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -7,14 +23,14 @@ import 'package:flutter/widgets.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:json_schema/vm.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:schema_form/bloc/JsonSchemaBl.dart';
+import 'package:schema_form/bloc/json_schema_bl.dart';
 
 class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     implements ClickListener {
   final Map<String, BehaviorSubject<dynamic>> _formData =
-      Map<String, BehaviorSubject<dynamic>>();
+  <String, BehaviorSubject<dynamic>>{};
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   GlobalKey<FormState> get formKey => _formKey;
 
@@ -52,7 +68,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       print(
           "currentState.data[key] ?? prop.defaultValue: ${state.data[key] ?? prop.defaultValue}");
       _formData[key] =
-          BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
+      BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
       print("Created: $key");
     });
   }
@@ -73,7 +89,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
   }
 
   Future<void> close() async {
-    await new Future(() => _formDataClose());
+    await () async => _formDataClose();
 
     await super.close();
   }
@@ -93,10 +109,10 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
   }
 
   @override
-  get initialState => JsonSchemaState.initial();
+  JsonSchemaState get initialState => JsonSchemaState.initial();
 
   @override
-  Stream<JsonSchemaState> mapEventToState(event) async* {
+  Stream<JsonSchemaState> mapEventToState(JsonSchemaEvent event) async* {
     if (event is LoadDataSchemaEvent) {
       _formDataClose();
 
@@ -112,7 +128,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 //        }
 //      });
     } else if (event is LoadDataEvent) {
-      Map<String, dynamic> currentData = event.data ?? state.data;
+      var currentData = event.data ?? state.data;
 
       currentData?.forEach((key, value) {
         if (_formData.containsKey(key)) {
@@ -133,7 +149,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
         _formData[event.key].add(event.value);
       }
 
-      Map<String, dynamic> currentData = state.data;
+      var currentData = state.data;
 
       currentData[event.key] = event.value;
 
@@ -143,7 +159,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       try {
         print("currentState.data: ${state.data}");
 
-        FormState formState = formKey?.currentState ?? Form.of(formContext);
+        var formState = formKey?.currentState ?? Form.of(formContext);
 
         print("formState: $formState");
 
@@ -152,7 +168,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
           formState.save();
 
-          Validator validator = new Validator(state.dataSchema);
+          var validator = Validator(state.dataSchema);
 
           if (validator.validate(state.data)) {
             _submitData.add(json.encode(state.data));
@@ -162,7 +178,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
         } else {
           _submitData.add("Invalid form state");
         }
-      } catch (e) {
+      } on Error catch (e) {
         _submitData.add(e.toString());
       }
 

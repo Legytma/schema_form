@@ -6,3 +6,5 @@
 .pub/
 packages
 pubspec.lock
+.flutter-plugins
+build
