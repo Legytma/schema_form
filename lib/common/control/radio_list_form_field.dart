@@ -15,7 +15,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Implements [FormField]<[T]> of the [RadioListTile] control.
 class RadioListFormField<T> extends FormField<T> {
+  /// Create [RadioListFormField] optionally using [onSaved], [validator],
+  /// [initialValue], [onChange], [title] and [autoValidate].
   RadioListFormField({
     FormFieldSetter<T> onSaved,
     FormFieldValidator<T> validator,

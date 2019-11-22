@@ -15,9 +15,13 @@
 import 'package:meta/meta.dart';
 import 'package:schema_form/bloc/event/json_schema_event.dart';
 
+/// [JsonSchemaEvent] to load the serialized form layout in
+/// [Map]<[String], [dynamic]> format.
 class LoadLayoutSchemaEvent extends JsonSchemaEvent {
+  /// [Map] to store the layout of the form to be loaded.
   final Map<String, dynamic> layout;
 
+  /// Create a [LoadLayoutSchemaEvent] using a [layout]
   LoadLayoutSchemaEvent({@required this.layout});
 
   @override

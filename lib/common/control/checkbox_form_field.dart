@@ -15,7 +15,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Implements [FormField]<[bool]> of the [CheckboxListTile] control.
 class CheckboxFormField extends FormField<bool> {
+  /// Create [CheckboxFormField] optionally using [onSaved], [validator],
+  /// [initialValue], [onChange], [title] and [autoValidate].
   CheckboxFormField({
     FormFieldSetter<bool> onSaved,
     FormFieldValidator<bool> validator,

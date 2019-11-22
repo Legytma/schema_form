@@ -18,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 
+/// [WidgetParser] to parse [DropdownButtonFormField].
 class SchemaDropdownButtonFormFieldParser extends WidgetParser {
   @override
   bool forWidget(String widgetName) {

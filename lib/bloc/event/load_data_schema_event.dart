@@ -16,9 +16,12 @@ import 'package:json_schema/json_schema.dart';
 import 'package:meta/meta.dart';
 import 'package:schema_form/bloc/event/json_schema_event.dart';
 
+/// [JsonSchemaEvent] to load a [JsonSchema].
 class LoadDataSchemaEvent extends JsonSchemaEvent {
+  /// [JsonSchema] that will be loaded.
   final JsonSchema dataSchema;
 
+  /// Create a [LoadDataSchemaEvent] using a [dataSchema].
   LoadDataSchemaEvent({@required this.dataSchema});
 
   @override

@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 
+/// [WidgetParser] to parse [Form]
 class SchemaFormParser extends WidgetParser {
   @override
   bool forWidget(String widgetName) {
@@ -60,16 +61,6 @@ class SchemaFormParser extends WidgetParser {
                     listener,
                   )
                 : Container(),
-//            Container(
-//              padding: EdgeInsets.all(10.0),
-//              child: Column(
-//                mainAxisAlignment: MainAxisAlignment.start,
-//                crossAxisAlignment: CrossAxisAlignment.start,
-//                children: jsonSchema.properties.entries.map<Widget>((item) {
-//                  return getWidget(context, item);
-//                }).toList(),
-//              ),
-//            ),
           );
         }
       },

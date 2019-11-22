@@ -14,7 +14,9 @@
 
 import 'package:schema_form/bloc/event/json_schema_event.dart';
 
+/// [JsonSchemaEvent] form submission.
 class SubmitJsonSchemaEvent extends JsonSchemaEvent {
+  /// Create a [SubmitJsonSchemaEvent] without params.
   SubmitJsonSchemaEvent();
 
   @override

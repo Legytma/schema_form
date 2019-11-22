@@ -16,42 +16,48 @@ import 'package:equatable/equatable.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:meta/meta.dart';
 
+/// Object derived from class [Equatable] to store the state of the form.
 class JsonSchemaState extends Equatable {
+  /// [JsonSchema] for validation and description of properties in [Object] to
+  /// be edited.
   final JsonSchema dataSchema;
-  final Map<String, dynamic> layout;
-  final Map<String, dynamic> data;
-  final String submitData;
 
+  /// Form layout definition [Map].
+  final Map<String, dynamic> layout;
+
+  /// Serialization [Map] of the data to be edited.
+  final Map<String, dynamic> data;
+
+  /// Creates a [JsonSchemaState] using [dataSchema], [layout], and [data].
   JsonSchemaState({
     @required this.dataSchema,
     @required this.layout,
     @required this.data,
-    @required this.submitData,
   });
 
+  /// Creates a [JsonSchemaState] with default values.
   factory JsonSchemaState.initial() {
     return JsonSchemaState(
       dataSchema: null,
       layout: null,
       data: <String, dynamic>{},
-      submitData: null,
     );
   }
 
+  /// Creates a clone of the current [JsonSchemaState], replacing any properties
+  /// that are passed as an argument.
   JsonSchemaState copyWith({
     JsonSchema dataSchema,
     Map<String, dynamic> layout,
     Map<String, dynamic> data,
-    String submitData,
   }) {
     return JsonSchemaState(
       dataSchema: dataSchema ?? this.dataSchema,
       layout: layout ?? this.layout,
       data: data ?? this.data,
-      submitData: submitData ?? this.submitData,
     );
   }
 
   @override
-  List<Object> get props => [dataSchema, layout, data, submitData];
+  List<Object> get props => [dataSchema, layout, data];
 }

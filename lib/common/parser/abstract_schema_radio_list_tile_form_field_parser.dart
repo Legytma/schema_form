@@ -19,7 +19,11 @@ import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 import 'package:schema_form/common/control/radio_list_form_field.dart';
 
+/// Abstract class that extends [WidgetParser] to parse from a list of
+/// [RadioListFormField].
 abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
+  /// Parse a list of [RadioListFormField] using [map], [buildContext] and
+  /// [listener].
   List<Widget> parseItems(Map<String, dynamic> map, BuildContext buildContext,
       ClickListener listener) {
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);

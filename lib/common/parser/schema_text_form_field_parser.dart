@@ -22,6 +22,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 import 'package:schema_form/common/parse_utils.dart';
 
+/// [WidgetParser] to parse [TextFormField].
 class SchemaTextFormFieldParser extends WidgetParser {
   @override
   bool forWidget(String widgetName) {

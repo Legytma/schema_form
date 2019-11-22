@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 import 'package:schema_form/common/parser/abstract_schema_radio_list_tile_form_field_parser.dart';
 
+/// [SchemaRadioListTileFormFieldParser] to parse [Column] of [RadioListTile].
 class SchemaColumnRadioListTileFormFieldParser
     extends SchemaRadioListTileFormFieldParser {
   @override

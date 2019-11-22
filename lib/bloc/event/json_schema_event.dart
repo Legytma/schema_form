@@ -14,4 +14,6 @@
 
 import 'package:equatable/equatable.dart';
 
+/// Abstract class derived from a [Equatable] to abstract all events that will
+/// be used by [JsonSchemaBloc].
 abstract class JsonSchemaEvent extends Equatable {}

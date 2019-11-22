@@ -16,6 +16,7 @@ import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 
+/// [WidgetParser] to parse [Divider].
 class DividerParser extends WidgetParser {
   @override
   bool forWidget(String widgetName) {

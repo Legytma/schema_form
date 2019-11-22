@@ -17,6 +17,7 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+/// Parse [TextInputType] from [String].
 TextInputType parseKeyboardType(String keyboardTypeName) {
   switch (keyboardTypeName) {
     case 'datetime':
@@ -38,6 +39,7 @@ TextInputType parseKeyboardType(String keyboardTypeName) {
   return null;
 }
 
+/// Parse [Brightness] from [String].
 Brightness parseKeyboardAppearance(String keyboardAppearance) {
   switch (keyboardAppearance) {
     case 'dark':
@@ -49,6 +51,7 @@ Brightness parseKeyboardAppearance(String keyboardAppearance) {
   return null;
 }
 
+/// Parse [TextCapitalization] from [String].
 TextCapitalization parseTextCapitalization(String textCapitalization) {
   switch (textCapitalization) {
     case 'characters':
@@ -64,6 +67,7 @@ TextCapitalization parseTextCapitalization(String textCapitalization) {
   return null;
 }
 
+/// Parse [TextInputAction] from [String].
 TextInputAction parseTextInputAction(String textInputAction) {
   switch (textInputAction) {
     case 'none':

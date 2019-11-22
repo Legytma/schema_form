@@ -15,10 +15,16 @@
 import 'package:meta/meta.dart';
 import 'package:schema_form/bloc/event/json_schema_event.dart';
 
+/// [JsonSchemaEvent] data change. Used by [JsonSchemaBloc] to update [Object]
+/// data being edited in the form.
 class ChangeValueJsonSchemaEvent extends JsonSchemaEvent {
+  /// [String] representing the property name of the [Object] being edited.
   final String key;
+
+  /// [dynamic] with the property value of the [Object] being edited.
   final dynamic value;
 
+  /// Create a [ChangeValueJsonSchemaEvent] using the [key] and [value].
   ChangeValueJsonSchemaEvent({@required this.key, @required this.value});
 
   @override

@@ -19,6 +19,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 
+/// [WidgetParser] to parse [Text] with value of [JsonSchema] property.
 class SchemaTextParser implements WidgetParser {
   @override
   bool forWidget(String widgetName) {

@@ -15,7 +15,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Implements [FormField]<[bool]> of the [SwitchListTile] control.
 class SwitchFormField extends FormField<bool> {
+  /// Create [SwitchFormField] optionally using [onSaved], [validator],
+  /// [initialValue], [onChange], [title] and [autoValidate].
   SwitchFormField({
     FormFieldSetter<bool> onSaved,
     FormFieldValidator<bool> validator,

@@ -15,9 +15,13 @@
 import 'package:meta/meta.dart';
 import 'package:schema_form/bloc/event/json_schema_event.dart';
 
+/// [Object] load [JsonSchemaEvent] serialized in [Map]<[String], [dynamic]>
+/// format.
 class LoadDataEvent extends JsonSchemaEvent {
+  /// [Map] for [Object] store to be loaded.
   final Map<String, dynamic> data;
 
+  /// Create a [LoadDataEvent] using a [data].
   LoadDataEvent({@required this.data});
 
   @override
