@@ -42,6 +42,8 @@ $ flutter packages get
 
 ## Getting Started
 
+For help over class documentation, view the [documentation](https://raw.githubusercontent.com/Legytma/schema_form/master/doc/api/index.html).
+
 For help getting started with Flutter, view our online [documentation](https://flutter.io/).
 
 For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
