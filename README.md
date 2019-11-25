@@ -9,22 +9,43 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/Legytma/schema_form)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Legytma/schema_form)
 
-# Convert Json Schema to Form for Flutter apps.
+# Convert Json Schema to Form for Flutter apps
 
-A flutter plugin to use convert Json Schema to Form
-* [Example](https://github.com/Legytma/schema_form/tree/master/example)
+* [What is it](#what-is-it)
+  * [Motivation](#motivation)
+  * [How this work](#how-this-work)
+* [Getting Started](#getting-started)
+  * [Installation](#installation)
+  * [Usage](#usage)
+* [Next steps](#next-steps)
 
+## What is it
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Legytma/schema_form/master/image1.png" width="350"/>
-  <img src="https://raw.githubusercontent.com/Legytma/schema_form/master/image2.png" width="350"/>
-</p>
+Schema_form is a Flutter package based on two other packages that produces forms dynamically interpreting JSON objects:
 
+* [dynamic_widget](https://pub.dev/packages/dynamic_widget) - Which builds forms through JSON interpretation;
+* [json_schema](https://pub.dev/packages/json_schema) - Identifying, defining and validating the properties of the object being edited.
 
-## Instalation
+### Motivation
+A major difficulty for any application developer is to ensure that all users keep their applications up to date to ensure the same user experience and to reduce the time required to fix bugs.
+
+The most commonly used alternative to accelerate this process is [Code Push](https://github.com/Microsoft/code-push) which allows the application update without the need for a new deploy in the store. However in Code Push GitHub itself there is a [Code Push Support for Flutter](https://github.com/Microsoft/code-push/issues/624#issuecomment-532358395) request with comment saying that support depends on implementing dynamic update support in Flutter, there is also a reference to [Flutter Roadmap](https://github.com/flutter/flutter/wiki/Roadmap#changes) saying that support for This type of update is postponed according to the official comment [Code Push / Hot Update / out of band updates](https://github.com/flutter/flutter/issues/14330#issuecomment-485565194), which explains the reasons that led to the decision.
+
+One possible solution to this deadlock is to implement a JSON interpreter that enables screen redesign, which can be obtained using [dynamic_widget](https://github.com/dengyin2000/dynamic_widget). However dynamic_widget does not support a dynamic form. This package was designed to meet this need.
+
+### How this work
+
+## Getting Started
+
+* For help over FormSchema usage, view the [example](https://github.com/Legytma/schema_form/tree/master/example);
+* For help over class documentation, view the [documentation](https://raw.githubusercontent.com/Legytma/schema_form/master/doc/api/index.html);
+* For help getting started with Flutter, view our online [documentation](https://flutter.io/);
+* For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
+
+### Installation
 
 * Add this to your package's pubspec.yaml file:
-```
+```yaml
 dependencies:
   schema_form: "^0.1.2"
 ```
@@ -33,16 +54,50 @@ dependencies:
 ```
 $ flutter packages get
 ```
-
 * Import it Now in your Dart code, you can use:
-```
+```dart
  import 'package:schema_form/schema_form.dart'; 
 ```
-## Usage
 
-## Getting Started
+### Usage
 
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
+```dart
+  JsonSchemaBloc jsonSchemaBloc = JsonSchemaBloc(formContext: context); // Business Logic
+  SchemaForm schemaForm = SchemaForm(jsonSchemaBloc: jsonSchemaBloc);   // Form Widget
 
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
+  // Load files
+  File layoutSchemaFile = new File("layoutSchema.json");  // JSON screen layout
+  File dataSchemaFile = new File("dataSchema.json");      // Data Schema
+  File dataValueFile = new File("dataValue.json");        // Object for editing
 
+  // Get content of files
+  String layoutSchemaContent = layoutSchemaFile.readAsStringSync();
+  String dataSchemaContent = dataSchemaFile.readAsStringSync();
+  String dataValueContent = dataValueFile.readAsStringSync();
+
+  // Turn content into Map
+  Map<String, dynamic> layoutSchemaMap = json.decode(layoutSchemaContent);
+  Map<String, dynamic> dataSchemaMap = json.decode(dataSchemaContent);
+  Map<String, dynamic> dataValueMap = json.decode(dataValueContent);
+
+  // Turn Map into JsonSchema
+  JsonSchema dataJsonSchema = JsonSchema.createSchema(dataSchemaMap);
+
+  // Load to Business Logic
+  jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchemaMap));   // Layout
+  jsonSchemaBloc.add(LoadDataSchemaEvent(dataSchema: dataJsonSchema));  // Json Schema
+  jsonSchemaBloc.add(LoadDataEvent(data: dataValueMap));                // Object in edit
+
+  print(jsonSchemaBloc.getFormData());  // Print the object being edited
+```
+
+<p align="center">
+  <img width="300" src="https://raw.githubusercontent.com/Legytma/schema_form/master/image1.png"/>
+  <img width="300" src="https://raw.githubusercontent.com/Legytma/schema_form/master/image2.png"/>
+</p>
+
+## Next steps
+
+- [x] Make MVP
+- [x] Minimal documentation
+- [ ] Change event binding of click event

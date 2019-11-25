@@ -1,0 +1,209 @@
+<!-- Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). -->
+<!-- -->
+<!--  Licensed under the Apache License, Version 2.0 (the "License"); -->
+<!--  you may not use this file except in compliance with the License. -->
+<!--  You may obtain a copy of the License at -->
+<!-- -->
+<!--       http://www.apache.org/licenses/LICENSE-2.0 -->
+<!-- -->
+<!-- Unless required by applicable law or agreed to in writing, software -->
+<!-- distributed under the License is distributed on an "AS IS" BASIS, -->
+<!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!-- See the License for the specific language governing permissions and -->
+<!-- limitations under the License. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+    <meta name="description"
+          content="schema_form library API docs, for the Dart programming language.">
+    <title>schema_form library - Dart API</title>
+    <!-- required because all the links are pseudo-absolute -->
+    <base href="..">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="static-assets/github.css">
+    <link rel="stylesheet" href="static-assets/styles.css">
+    <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+    <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+    <ol class="breadcrumbs gt-separated dark hidden-xs">
+        <li><a href="index.html">schema_form</a></li>
+        <li class="self-crumb">schema_form library</li>
+    </ol>
+    <div class="self-name">schema_form</div>
+    <form class="search navbar-right" role="search">
+        <input type="text" id="search-box" autocomplete="off" disabled
+               class="form-control typeahead" placeholder="Loading search...">
+    </form>
+</header>
+
+<main>
+
+    <div id="dartdoc-sidebar-left"
+         class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+        <header id="header-search-sidebar" class="hidden-l">
+            <form class="search-sidebar" role="search">
+                <input type="text" id="search-sidebar" autocomplete="off" disabled
+                       class="form-control typeahead" placeholder="Loading search...">
+            </form>
+        </header>
+
+        <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+            <li><a href="index.html">schema_form</a></li>
+            <li class="self-crumb">schema_form library</li>
+        </ol>
+
+        <h5><span class="package-name">schema_form</span> <span class="package-kind">package</span>
+        </h5>
+        <ol>
+            <li class="section-title">Libraries</li>
+            <li><a href="schema_form/schema_form-library.html">schema_form</a></li>
+        </ol>
+    </div>
+
+    <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+        <div><h1><span class="kind-library">schema_form</span> library </h1></div>
+
+
+        <section class="summary offset-anchor" id="classes">
+            <h2>Classes</h2>
+
+            <dl>
+                <dt id="ChangeValueJsonSchemaEvent">
+                    <span class="name "><a href="schema_form/ChangeValueJsonSchemaEvent-class.html">ChangeValueJsonSchemaEvent</a></span>
+                </dt>
+                <dd>
+                    <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a> data
+                    change. Used by <a
+                        href="schema_form/JsonSchemaBloc-class.html">JsonSchemaBloc</a> to update
+                    <code>Object</code>
+                    data being edited in the form.
+                </dd>
+                <dt id="JsonSchemaBloc">
+                    <span class="name "><a href="schema_form/JsonSchemaBloc-class.html">JsonSchemaBloc</a></span>
+                </dt>
+                <dd>
+                    <code>Bloc</code> for managing <a href="schema_form/JsonSchemaState-class.html">JsonSchemaState</a>
+                    through the use of <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a>
+                    which implements <code>ClickListener</code> used to handle the click event of
+                    controls. <a href="schema_form/JsonSchemaBloc-class.html">[...]</a>
+                </dd>
+                <dt id="JsonSchemaEvent">
+                    <span class="name "><a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a></span>
+                </dt>
+                <dd>
+                    Abstract class derived from a <code>Equatable</code> to abstract all events that
+                    will
+                    be used by <a href="schema_form/JsonSchemaBloc-class.html">JsonSchemaBloc</a>.
+                </dd>
+                <dt id="JsonSchemaState">
+                    <span class="name "><a href="schema_form/JsonSchemaState-class.html">JsonSchemaState</a></span>
+                </dt>
+                <dd>
+                    Object derived from class <code>Equatable</code> to store the state of the form.
+                </dd>
+                <dt id="LoadDataEvent">
+                    <span class="name "><a
+                            href="schema_form/LoadDataEvent-class.html">LoadDataEvent</a></span>
+                </dt>
+                <dd>
+                    <code>Object</code> load <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a>
+                    serialized in <code>Map</code>&lt;<code>String</code>, <code>dynamic</code>&gt;
+                    format.
+                </dd>
+                <dt id="LoadDataSchemaEvent">
+                    <span class="name "><a href="schema_form/LoadDataSchemaEvent-class.html">LoadDataSchemaEvent</a></span>
+                </dt>
+                <dd>
+                    <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a> to load a
+                    <code>JsonSchema</code>.
+                </dd>
+                <dt id="LoadLayoutSchemaEvent">
+                    <span class="name "><a href="schema_form/LoadLayoutSchemaEvent-class.html">LoadLayoutSchemaEvent</a></span>
+                </dt>
+                <dd>
+                    <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a> to load the
+                    serialized form layout in
+                    <code>Map</code>&lt;<code>String</code>, <code>dynamic</code>&gt; format.
+                </dd>
+                <dt id="SchemaForm">
+                    <span class="name "><a
+                            href="schema_form/SchemaForm-class.html">SchemaForm</a></span>
+                </dt>
+                <dd>
+                    <code>StatelessWidget</code> for building forms dynamically from JSON schema
+                    interpretation.
+                    It takes two JSONs to build the form. A third JSON can be used as a data
+                    source, which in turn needs to be in accordance with the data schema. <a
+                        href="schema_form/SchemaForm-class.html">[...]</a>
+                </dd>
+                <dt id="SubmitJsonSchemaEvent">
+                    <span class="name "><a href="schema_form/SubmitJsonSchemaEvent-class.html">SubmitJsonSchemaEvent</a></span>
+                </dt>
+                <dd>
+                    <a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a> form
+                    submission.
+                </dd>
+            </dl>
+        </section>
+
+
+    </div> <!-- /.main-content -->
+
+    <div id="dartdoc-sidebar-right"
+         class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+        <h5>schema_form library</h5>
+        <ol>
+            <li class="section-title"><a
+                    href="schema_form/schema_form-library.html#classes">Classes</a></li>
+            <li><a href="schema_form/ChangeValueJsonSchemaEvent-class.html">ChangeValueJsonSchemaEvent</a>
+            </li>
+            <li><a href="schema_form/JsonSchemaBloc-class.html">JsonSchemaBloc</a></li>
+            <li><a href="schema_form/JsonSchemaEvent-class.html">JsonSchemaEvent</a></li>
+            <li><a href="schema_form/JsonSchemaState-class.html">JsonSchemaState</a></li>
+            <li><a href="schema_form/LoadDataEvent-class.html">LoadDataEvent</a></li>
+            <li><a href="schema_form/LoadDataSchemaEvent-class.html">LoadDataSchemaEvent</a></li>
+            <li><a href="schema_form/LoadLayoutSchemaEvent-class.html">LoadLayoutSchemaEvent</a>
+            </li>
+            <li><a href="schema_form/SchemaForm-class.html">SchemaForm</a></li>
+            <li><a href="schema_form/SubmitJsonSchemaEvent-class.html">SubmitJsonSchemaEvent</a>
+            </li>
+
+
+        </ol>
+    </div><!--/sidebar-offcanvas-right-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    schema_form 0.1.2
+  </span>
+
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

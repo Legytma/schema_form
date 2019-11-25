@@ -1,18 +1,16 @@
-/******************************************************************************
- * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
- *                                                                            *
- *  Licensed under the Apache License, Version 2.0 (the "License");           *
- *  you may not use this file except in compliance with the License.          *
- *  You may obtain a copy of the License at                                   *
- *                                                                            *
- *       http://www.apache.org/licenses/LICENSE-2.0                           *
- *                                                                            *
- * Unless required by applicable law or agreed to in writing, software        *
- * distributed under the License is distributed on an "AS IS" BASIS,          *
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
- * See the License for the specific language governing permissions and        *
- * limitations under the License.                                             *
- ******************************************************************************/
+// Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br).
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import 'dart:async';
 import 'dart:convert';
@@ -25,24 +23,41 @@ import 'package:json_schema/vm.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 
+/// [Bloc] for managing [JsonSchemaState] through the use of [JsonSchemaEvent]
+/// which implements [ClickListener] used to handle the click event of controls.
+///
+/// This is the business logic used to manage the form.
 class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     implements ClickListener {
   final Map<String, BehaviorSubject<dynamic>> _formData =
-  <String, BehaviorSubject<dynamic>>{};
+      <String, BehaviorSubject<dynamic>>{};
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  /// Get to the [FormState].
   GlobalKey<FormState> get formKey => _formKey;
 
   final PublishSubject<String> _submitData = PublishSubject<String>();
 
+  /// Property used to store [VoidCallback] that will be used to handle the
+  /// [Form.onFormChanged] event.
   VoidCallback onFormChanged;
+
+  /// Property used to store [WillPopCallback] that will be used to handle the
+  /// [Form.onFormWillPop] event.
   WillPopCallback onFormWillPop;
 
+  /// Property used to store [BuildContext] used if you need to retrieve form
+  /// state through context.
+  ///
+  /// TODO Remove this workaround.
   BuildContext formContext;
 
+  /// Get to the [Stream]<[String]> of the submit data.
   Stream<String> get submitData => _submitData;
 
+  /// Create a [JsonSchemaBloc] using [formContext] and optionally
+  /// [onFormChanged] and [onFormWillPop].
   JsonSchemaBloc({
     @required this.formContext,
     this.onFormChanged,
@@ -52,13 +67,16 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 //    configureJsonSchemaForBrowser();
   }
 
+  /// Get [JsonSchema] from the [fieldName] property of [dataSchema] present in
+  /// the current state.
   JsonSchema getPropertySchema(String fieldName) =>
       state?.dataSchema?.properties[fieldName];
 
+  /// Get [Stream]<[dynamic]> for the form's [fieldName] field.
   Stream<dynamic> getFieldStream(String fieldName) =>
       _formData[fieldName].stream;
 
-  void initDataBinding(Map<String, dynamic> properties) {
+  void _initDataBinding(Map<String, dynamic> properties) {
     print("properties: $properties");
     properties?.forEach((key, prop) {
       print("Creating: $key");
@@ -68,11 +86,12 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       print(
           "currentState.data[key] ?? prop.defaultValue: ${state.data[key] ?? prop.defaultValue}");
       _formData[key] =
-      BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
+          BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
       print("Created: $key");
     });
   }
 
+  /// Get JSON [String] for form data after [validate].
   String getFormData() {
     if (validate()) {
       return json.encode(state.data);
@@ -81,6 +100,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     return "Não foi possível validar os dados";
   }
 
+  /// Validate form data using [JsonSchema]
   bool validate() {
     print("_data: ${state.data}");
     return state.dataSchema == null
@@ -116,7 +136,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
     if (event is LoadDataSchemaEvent) {
       _formDataClose();
 
-      initDataBinding(event.dataSchema?.properties);
+      _initDataBinding(event.dataSchema?.properties);
 
       yield state.copyWith(dataSchema: event.dataSchema);
       print("LoadJsonSchemaEvent executed");
