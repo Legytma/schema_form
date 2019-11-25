@@ -28,7 +28,9 @@ Schema_form is a Flutter package based on two other packages that produces forms
 
 ### Motivation
 A major difficulty for any application developer is to ensure that all users keep their applications up to date to ensure the same user experience and to reduce the time required to fix bugs.
+
 The most commonly used alternative to accelerate this process is [Code Push](https://github.com/Microsoft/code-push) which allows the application update without the need for a new deploy in the store. However in Code Push GitHub itself there is a [Code Push Support for Flutter](https://github.com/Microsoft/code-push/issues/624#issuecomment-532358395) request with comment saying that support depends on implementing dynamic update support in Flutter, there is also a reference to [Flutter Roadmap](https://github.com/flutter/flutter/wiki/Roadmap#changes) saying that support for This type of update is postponed according to the official comment [Code Push / Hot Update / out of band updates](https://github.com/flutter/flutter/issues/14330#issuecomment-485565194), which explains the reasons that led to the decision.
+
 One possible solution to this deadlock is to implement a JSON interpreter that enables screen redesign, which can be obtained using [dynamic_widget](https://github.com/dengyin2000/dynamic_widget). However dynamic_widget does not support a dynamic form. This package was designed to meet this need.
 
 ### How this work
