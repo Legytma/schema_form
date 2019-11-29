@@ -36,10 +36,15 @@ class RadioListFormField<T> extends FormField<T> {
             return RadioListTile<T>(
               value: radioValue,
               groupValue: initialValue,
-              title: Text(title),
+              title: Text(
+                title,
+                maxLines: 1,
+                softWrap: false,
+              ),
               subtitle: Text(
                 state.hasError ? state.errorText : '',
                 style: TextStyle(color: Color(0xFFd32f2f)),
+                softWrap: false,
               ),
               onChanged: (T value) {
                 state.didChange(value);

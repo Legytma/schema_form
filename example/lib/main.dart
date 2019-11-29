@@ -120,11 +120,11 @@ class MyApp extends StatelessWidget {
 
   Future<Map<String, dynamic>> loadJsonFromAsset(
       BuildContext context, String filePath) async {
-    print("filePath: $filePath");
+//    print("filePath: $filePath");
 
     String content = await DefaultAssetBundle.of(context).loadString(filePath);
 
-    print("content: $content");
+//    print("content: $content");
 
     Map<String, dynamic> jsonMap = json.decode(content);
 
@@ -133,14 +133,14 @@ class MyApp extends StatelessWidget {
 
   Future<Map<String, dynamic>> loadJsonFromStorage(
       BuildContext context, String filePath) async {
-    print("filePath: $filePath");
+//    print("filePath: $filePath");
 
     File file = new File(filePath);
 
     if (file.existsSync()) {
       String content = file.readAsStringSync();
 
-      print("content: $content");
+//      print("content: $content");
 
       Map<String, dynamic> jsonMap = json.decode(content);
 
@@ -152,13 +152,13 @@ class MyApp extends StatelessWidget {
 
   Future<Map<String, dynamic>> loadJsonFromUrl(
       BuildContext context, String filePath) async {
-    print("filePath: $filePath");
+//    print("filePath: $filePath");
 
     String username = '';
     String password = '';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    print('basicAuth: $basicAuth');
+//    print('basicAuth: $basicAuth');
 
     http.Response response = await http.get(Uri.encodeFull(filePath), headers: {
       "Accept": "application/json",
