@@ -1,18 +1,16 @@
-/******************************************************************************
- * Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br). *
- *                                                                            *
- *  Licensed under the Apache License, Version 2.0 (the "License");           *
- *  you may not use this file except in compliance with the License.          *
- *  You may obtain a copy of the License at                                   *
- *                                                                            *
- *       http://www.apache.org/licenses/LICENSE-2.0                           *
- *                                                                            *
- * Unless required by applicable law or agreed to in writing, software        *
- * distributed under the License is distributed on an "AS IS" BASIS,          *
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   *
- * See the License for the specific language governing permissions and        *
- * limitations under the License.                                             *
- ******************************************************************************/
+// Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br).
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +19,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:schema_form/bloc/json_schema_bl.dart';
 import 'package:schema_form/common/control/checkbox_form_field.dart';
 
+/// [WidgetParser] to parse [CheckboxFormField].
 class SchemaCheckboxFormFieldParser extends WidgetParser {
   @override
   bool forWidget(String widgetName) {
@@ -42,7 +41,7 @@ class SchemaCheckboxFormFieldParser extends WidgetParser {
       builder: (context, snapshot) {
         return CheckboxFormField(
           autoValidate:
-          map.containsKey('autovalidate') ? map['autovalidate'] : false,
+              map.containsKey('autovalidate') ? map['autovalidate'] : false,
           initialValue: snapshot?.data ?? fieldSchema.defaultValue ?? false,
           title: fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
           validator: (bool value) {

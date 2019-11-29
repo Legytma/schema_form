@@ -1,13 +1,16 @@
 name: schema_form
-description: A flutter plugin to use convert Json schema to Form Basic
-version: 0.1.2
+description: "Schema_form is a Flutter package based on two other packages that produces forms dynamically interpreting JSON objects:
+
+* [dynamic_widget](https://pub.dev/packages/dynamic_widget) - Which builds forms through JSON interpretation;
+* [json_schema](https://pub.dev/packages/json_schema) - Identifying, defining and validating the properties of the object being edited."
+version: 1.0.0
 author: Alex Manoel Ferreira Silva <alex@legytma.com.br>
 homepage: https://github.com/Legytma/schema_form
 
 dependencies:
   flutter:
     sdk: flutter
-  path_provider: ^1.4.2
+  path_provider: ^1.4.5
   rxdart: ^0.22.6
 #  json_schema:
 #    git:
@@ -15,8 +18,8 @@ dependencies:
 #      ref: 2.2.2
   json_schema: ^2.2.1
 #  flutter_bloc_extensions: ^0.1.2
-  equatable: ^1.0.0
-  flutter_bloc: ^2.0.1
+  equatable: ^1.0.1
+  flutter_bloc: ^2.1.1
   dynamic_widget: ^1.0.5
   meta: ">=1.1.7 <2.0.0"
   bloc: ^2.0.0
