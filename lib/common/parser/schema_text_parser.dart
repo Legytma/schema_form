@@ -35,10 +35,10 @@ class SchemaTextParser implements WidgetParser {
     Map<String, dynamic> schemaMap = jsonSchemaBloc.state.dataSchema?.schemaMap;
     dynamic value =
         schemaMap == null ? '' : _getSchemaValue(schemaMap, addressList, 0);
-    print("propertyAddress: ${map['propertyAddress']}");
-    print("addressList: $addressList");
-    print("schemaMap: $schemaMap");
-    print("value: $value");
+//    print("propertyAddress: ${map['propertyAddress']}");
+//    print("addressList: $addressList");
+//    print("schemaMap: $schemaMap");
+//    print("value: $value");
 
     String data = map.containsKey('propertyAddress') ? value : '';
     String textAlignString = map['textAlign'];
