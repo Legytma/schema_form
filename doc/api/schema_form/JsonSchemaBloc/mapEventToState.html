@@ -218,7 +218,7 @@ Stream&lt;JsonSchemaState&gt; mapEventToState(JsonSchemaEvent event) async* {
     _initDataBinding(event.dataSchema?.properties);
 
     yield state.copyWith(dataSchema: event.dataSchema);
-    print(&quot;LoadJsonSchemaEvent executed&quot;);
+&#47;&#47;      print(&quot;LoadJsonSchemaEvent executed&quot;);
 &#47;&#47;
 &#47;&#47;      currentState.data?.forEach((key, value) {
 &#47;&#47;        print(&quot;Loaded(key: ${key}, value: ${value})&quot;);
@@ -232,17 +232,17 @@ Stream&lt;JsonSchemaState&gt; mapEventToState(JsonSchemaEvent event) async* {
     currentData?.forEach((key, value) {
       if (_formData.containsKey(key)) {
         _formData[key].add(value);
-        print(&quot;Loaded(key: $key, value: $value)&quot;);
+&#47;&#47;          print(&quot;Loaded(key: $key, value: $value)&quot;);
       }
     });
 
     yield state.copyWith(data: event.data);
-    print(&quot;LoadDataEvent executed&quot;);
+&#47;&#47;      print(&quot;LoadDataEvent executed&quot;);
   } else if (event is LoadLayoutSchemaEvent) {
     yield state.copyWith(layout: event.layout);
-    print(&quot;LoadLayoutSchemaEvent executed&quot;);
+&#47;&#47;      print(&quot;LoadLayoutSchemaEvent executed&quot;);
   } else if (event is ChangeValueJsonSchemaEvent) {
-    print(&quot;event.key: ${event.key}, event.value: ${event.value}&quot;);
+&#47;&#47;      print(&quot;event.key: ${event.key}, event.value: ${event.value}&quot;);
 
     if (_formData.containsKey(event.key)) {
       _formData[event.key].add(event.value);
@@ -252,18 +252,18 @@ Stream&lt;JsonSchemaState&gt; mapEventToState(JsonSchemaEvent event) async* {
 
     currentData[event.key] = event.value;
 
-    print(&quot;ChangeValueJsonSchemaEvent executed&quot;);
+&#47;&#47;      print(&quot;ChangeValueJsonSchemaEvent executed&quot;);
     yield state.copyWith(data: currentData);
   } else if (event is SubmitJsonSchemaEvent) {
     try {
-      print(&quot;currentState.data: ${state.data}&quot;);
+&#47;&#47;        print(&quot;currentState.data: ${state.data}&quot;);
 
       var formState = formKey?.currentState ?? Form.of(formContext);
 
-      print(&quot;formState: $formState&quot;);
+&#47;&#47;        print(&quot;formState: $formState&quot;);
 
       if (formState.validate()) {
-        print(&quot;Valid form state&quot;);
+&#47;&#47;          print(&quot;Valid form state&quot;);
 
         formState.save();
 
@@ -296,7 +296,7 @@ Stream&lt;JsonSchemaState&gt; mapEventToState(JsonSchemaEvent event) async* {
 
 <footer>
   <span class="no-break">
-    schema_form 0.1.2
+    schema_form 1.0.0
   </span>
 
 

@@ -17,7 +17,9 @@
 * [Getting Started](#getting-started)
   * [Installation](#installation)
   * [Usage](#usage)
+* [CHANGELOG](https://github.com/Legytma/schema_form/blob/master/CHANGELOG.md)
 * [Next steps](#next-steps)
+* [LICENSE](https://github.com/Legytma/schema_form/blob/master/LICENSE)
 
 ## What is it
 
@@ -47,7 +49,7 @@ One possible solution to this deadlock is to implement a JSON interpreter that e
 * Add this to your package's pubspec.yaml file:
 ```yaml
 dependencies:
-  schema_form: "^0.1.2"
+  schema_form: "^1.0.0"
 ```
 * You can install packages from the command line:
   with Flutter:

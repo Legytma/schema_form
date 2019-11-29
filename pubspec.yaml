@@ -3,7 +3,7 @@ description: "Schema_form is a Flutter package based on two other packages that 
 
 * [dynamic_widget](https://pub.dev/packages/dynamic_widget) - Which builds forms through JSON interpretation;
 * [json_schema](https://pub.dev/packages/json_schema) - Identifying, defining and validating the properties of the object being edited."
-version: 0.1.2
+version: 1.0.0
 author: Alex Manoel Ferreira Silva <alex@legytma.com.br>
 homepage: https://github.com/Legytma/schema_form
 

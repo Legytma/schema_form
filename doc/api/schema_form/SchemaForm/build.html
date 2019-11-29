@@ -179,7 +179,7 @@
 Widget build(BuildContext context) {
   &#47;&#47; TODO Internalize recovery through the context of [JsonSchemaBloc]
   return BlocProvider&lt;JsonSchemaBloc&gt;(
-    builder: (BuildContext buildContext) =&gt; jsonSchemaBloc,
+    create: (BuildContext buildContext) =&gt; jsonSchemaBloc,
     child: BlocBuilder&lt;JsonSchemaBloc, JsonSchemaState&gt;(
       bloc: jsonSchemaBloc,
       condition: (previousState, state) {
@@ -221,7 +221,7 @@ Widget build(BuildContext context) {
 
 <footer>
   <span class="no-break">
-    schema_form 0.1.2
+    schema_form 1.0.0
   </span>
 
 

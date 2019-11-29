@@ -99,24 +99,81 @@
                 <img src="https://img.shields.io/github/last-commit/Legytma/schema_form"
                      alt="GitHub last commit"></p>
             <h1 id="convert-json-schema-to-form-for-flutter-apps">Convert Json Schema to Form for
-                Flutter apps.</h1>
-            <p>A flutter plugin to use convert Json Schema to Form</p>
+                Flutter apps</h1>
             <ul>
-                <li><a href="https://github.com/Legytma/schema_form/tree/master/example">Example</a>
+                <li><a href="#what-is-it">What is it</a>
+                    <ul>
+                        <li><a href="#motivation">Motivation</a></li>
+                        <li><a href="#how-this-work">How this work</a></li>
+                    </ul>
+                </li>
+                <li><a href="#getting-started">Getting Started</a>
+                    <ul>
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#usage">Usage</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://github.com/Legytma/schema_form/blob/master/CHANGELOG.md">CHANGELOG</a>
+                </li>
+                <li><a href="#next-steps">Next steps</a></li>
+                <li><a href="https://github.com/Legytma/schema_form/blob/master/LICENSE">LICENSE</a>
                 </li>
             </ul>
-            <p align="center">
-                <img src="https://raw.githubusercontent.com/Legytma/schema_form/master/image1.png"
-                     width="350">
-                <img src="https://raw.githubusercontent.com/Legytma/schema_form/master/image2.png"
-                     width="350">
-            </p>
-            <h2 id="instalation">Instalation</h2>
+            <h2 id="what-is-it">What is it</h2>
+            <p>Schema_form is a Flutter package based on two other packages that produces forms
+                dynamically interpreting JSON objects:</p>
+            <ul>
+                <li><a href="https://pub.dev/packages/dynamic_widget">dynamic_widget</a> - Which
+                    builds forms through JSON interpretation;
+                </li>
+                <li><a href="https://pub.dev/packages/json_schema">json_schema</a> - Identifying,
+                    defining and validating the properties of the object being edited.
+                </li>
+            </ul>
+            <h3 id="motivation">Motivation</h3>
+            <p>A major difficulty for any application developer is to ensure that all users keep
+                their applications up to date to ensure the same user experience and to reduce the
+                time required to fix bugs.</p>
+            <p>The most commonly used alternative to accelerate this process is <a
+                    href="https://github.com/Microsoft/code-push">Code Push</a> which allows the
+                application update without the need for a new deploy in the store. However in Code
+                Push GitHub itself there is a <a
+                        href="https://github.com/Microsoft/code-push/issues/624#issuecomment-532358395">Code
+                    Push Support for Flutter</a> request with comment saying that support depends on
+                implementing dynamic update support in Flutter, there is also a reference to <a
+                        href="https://github.com/flutter/flutter/wiki/Roadmap#changes">Flutter
+                    Roadmap</a> saying that support for This type of update is postponed according
+                to the official comment <a
+                        href="https://github.com/flutter/flutter/issues/14330#issuecomment-485565194">Code
+                    Push / Hot Update / out of band updates</a>, which explains the reasons that led
+                to the decision.</p>
+            <p>One possible solution to this deadlock is to implement a JSON interpreter that
+                enables screen redesign, which can be obtained using <a
+                        href="https://github.com/dengyin2000/dynamic_widget">dynamic_widget</a>.
+                However dynamic_widget does not support a dynamic form. This package was designed to
+                meet this need.</p>
+            <h3 id="how-this-work">How this work</h3>
+            <h2 id="getting-started">Getting Started</h2>
+            <ul>
+                <li>For help over FormSchema usage, view the <a
+                        href="https://github.com/Legytma/schema_form/tree/master/example">example</a>;
+                </li>
+                <li>For help over class documentation, view the <a
+                        href="https://raw.githubusercontent.com/Legytma/schema_form/master/doc/api/index.html">documentation</a>;
+                </li>
+                <li>For help getting started with Flutter, view our online <a
+                        href="https://flutter.io/">documentation</a>;
+                </li>
+                <li>For help on editing package code, view the <a
+                        href="https://flutter.io/developing-packages/">documentation</a>.
+                </li>
+            </ul>
+            <h3 id="installation">Installation</h3>
             <ul>
                 <li>Add this to your package's pubspec.yaml file:</li>
             </ul>
-            <pre class="language-dart"><code>dependencies:
-  schema_form: "^0.1.2"
+            <pre class="language-yaml"><code class="language-yaml">dependencies:
+  schema_form: "^1.0.0"
 </code></pre>
             <ul>
                 <li>You can install packages from the command line:
@@ -128,17 +185,49 @@
             <ul>
                 <li>Import it Now in your Dart code, you can use:</li>
             </ul>
-            <pre class="language-dart"><code> import 'package:schema_form/schema_form.dart';
+            <pre class="language-dart"><code class="language-dart"> import 'package:schema_form/schema_form.dart';
 </code></pre>
-            <h2 id="usage">Usage</h2>
-            <h2 id="getting-started">Getting Started</h2>
-            <p>For help over class documentation, view the <a
-                    href="https://raw.githubusercontent.com/Legytma/schema_form/master/doc/api/index.html">documentation</a>.
+            <h3 id="usage">Usage</h3>
+            <pre class="language-dart"><code class="language-dart">  JsonSchemaBloc jsonSchemaBloc = JsonSchemaBloc(formContext: context); // Business Logic
+  SchemaForm schemaForm = SchemaForm(jsonSchemaBloc: jsonSchemaBloc);   // Form Widget
+
+  // Load files
+  File layoutSchemaFile = new File("layoutSchema.json");  // JSON screen layout
+  File dataSchemaFile = new File("dataSchema.json");      // Data Schema
+  File dataValueFile = new File("dataValue.json");        // Object for editing
+
+  // Get content of files
+  String layoutSchemaContent = layoutSchemaFile.readAsStringSync();
+  String dataSchemaContent = dataSchemaFile.readAsStringSync();
+  String dataValueContent = dataValueFile.readAsStringSync();
+
+  // Turn content into Map
+  Map&lt;String, dynamic&gt; layoutSchemaMap = json.decode(layoutSchemaContent);
+  Map&lt;String, dynamic&gt; dataSchemaMap = json.decode(dataSchemaContent);
+  Map&lt;String, dynamic&gt; dataValueMap = json.decode(dataValueContent);
+
+  // Turn Map into JsonSchema
+  JsonSchema dataJsonSchema = JsonSchema.createSchema(dataSchemaMap);
+
+  // Load to Business Logic
+  jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchemaMap));   // Layout
+  jsonSchemaBloc.add(LoadDataSchemaEvent(dataSchema: dataJsonSchema));  // Json Schema
+  jsonSchemaBloc.add(LoadDataEvent(data: dataValueMap));                // Object in edit
+
+  print(jsonSchemaBloc.getFormData());  // Print the object being edited
+</code></pre>
+            <p align="center">
+                <img width="300"
+                     src="https://raw.githubusercontent.com/Legytma/schema_form/master/image1.png">
+                <img width="300"
+                     src="https://raw.githubusercontent.com/Legytma/schema_form/master/image2.png">
             </p>
-            <p>For help getting started with Flutter, view our online <a href="https://flutter.io/">documentation</a>.
-            </p>
-            <p>For help on editing package code, view the <a
-                    href="https://flutter.io/developing-packages/">documentation</a>.</p>
+            <h2 id="next-steps">Next steps</h2>
+            <ul>
+                <li><code>x</code> Make MVP</li>
+                <li><code>x</code> Minimal documentation</li>
+                <li><code> </code> Change event binding of click event</li>
+            </ul>
         </section>
 
         <section class="summary">
@@ -164,7 +253,7 @@
 
 <footer>
   <span class="no-break">
-    schema_form 0.1.2
+    schema_form 1.0.0
   </span>
 
 
