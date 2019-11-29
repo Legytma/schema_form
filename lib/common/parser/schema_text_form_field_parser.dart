@@ -139,7 +139,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
       JsonSchemaBloc jsonSchemaBloc,
       JsonSchema fieldSchema,
       String currentValue) {
-    print("map: $map");
+//    print("map: $map");
 
     if (map.containsKey('datePicker')) {
       return FlatButton(
@@ -158,7 +158,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
                 selectedTime.hour,
                 selectedTime.minute,
               );
-              print("selectedDateTime: $selectedDateTime");
+//              print("selectedDateTime: $selectedDateTime");
 
               jsonSchemaBloc.add(
                 ChangeValueJsonSchemaEvent(
@@ -175,7 +175,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
               lastDate: DateTime(2099),
               locale: Localizations.localeOf(buildContext),
             ).then((DateTime selectedDate) {
-              print("selectedDate: $selectedDate");
+//              print("selectedDate: $selectedDate");
 
               if (map['datePicker'] == "DateTime") {
                 showTimePicker(context: buildContext, initialTime: currentTime)
@@ -187,7 +187,7 @@ class SchemaTextFormFieldParser extends WidgetParser {
                     selectedTime.hour,
                     selectedTime.minute,
                   );
-                  print("selectedDateTime: $selectedDateTime");
+//                  print("selectedDateTime: $selectedDateTime");
 
                   jsonSchemaBloc.add(
                     ChangeValueJsonSchemaEvent(

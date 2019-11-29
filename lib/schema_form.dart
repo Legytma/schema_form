@@ -99,7 +99,7 @@ class SchemaForm extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO Internalize recovery through the context of [JsonSchemaBloc]
     return BlocProvider<JsonSchemaBloc>(
-      builder: (BuildContext buildContext) => jsonSchemaBloc,
+      create: (BuildContext buildContext) => jsonSchemaBloc,
       child: BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
         bloc: jsonSchemaBloc,
         condition: (previousState, state) {

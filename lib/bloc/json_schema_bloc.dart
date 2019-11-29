@@ -77,17 +77,17 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       _formData[fieldName].stream;
 
   void _initDataBinding(Map<String, dynamic> properties) {
-    print("properties: $properties");
+//    print("properties: $properties");
     properties?.forEach((key, prop) {
-      print("Creating: $key");
-      print("prop: $prop");
-      print("currentState.data: ${state.data}");
-      print("currentState.data[key]: ${state.data[key]}");
-      print(
-          "currentState.data[key] ?? prop.defaultValue: ${state.data[key] ?? prop.defaultValue}");
+//      print("Creating: $key");
+//      print("prop: $prop");
+//      print("currentState.data: ${state.data}");
+//      print("currentState.data[key]: ${state.data[key]}");
+//      print(
+//          "currentState.data[key] ?? prop.defaultValue: ${state.data[key] ?? prop.defaultValue}");
       _formData[key] =
           BehaviorSubject<dynamic>.seeded(state.data[key] ?? prop.defaultValue);
-      print("Created: $key");
+//      print("Created: $key");
     });
   }
 
@@ -102,7 +102,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
   /// Validate form data using [JsonSchema]
   bool validate() {
-    print("_data: ${state.data}");
+//    print("_data: ${state.data}");
     return state.dataSchema == null
         ? false
         : state.dataSchema.validate(state.data, reportMultipleErrors: true);
@@ -115,17 +115,17 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
   }
 
   void _formDataClose() {
-    print("Initial _formData.length: ${_formData.length}");
+//    print("Initial _formData.length: ${_formData.length}");
 
     _formData.removeWhere((key, value) {
-      print("Closing: $key");
+//      print("Closing: $key");
       value.close();
-      print("Closed: $key");
+//      print("Closed: $key");
 
       return true;
     });
 
-    print("Final _formData.length: ${_formData.length}");
+//    print("Final _formData.length: ${_formData.length}");
   }
 
   @override
@@ -139,7 +139,7 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       _initDataBinding(event.dataSchema?.properties);
 
       yield state.copyWith(dataSchema: event.dataSchema);
-      print("LoadJsonSchemaEvent executed");
+//      print("LoadJsonSchemaEvent executed");
 //
 //      currentState.data?.forEach((key, value) {
 //        print("Loaded(key: ${key}, value: ${value})");
@@ -153,17 +153,17 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       currentData?.forEach((key, value) {
         if (_formData.containsKey(key)) {
           _formData[key].add(value);
-          print("Loaded(key: $key, value: $value)");
+//          print("Loaded(key: $key, value: $value)");
         }
       });
 
       yield state.copyWith(data: event.data);
-      print("LoadDataEvent executed");
+//      print("LoadDataEvent executed");
     } else if (event is LoadLayoutSchemaEvent) {
       yield state.copyWith(layout: event.layout);
-      print("LoadLayoutSchemaEvent executed");
+//      print("LoadLayoutSchemaEvent executed");
     } else if (event is ChangeValueJsonSchemaEvent) {
-      print("event.key: ${event.key}, event.value: ${event.value}");
+//      print("event.key: ${event.key}, event.value: ${event.value}");
 
       if (_formData.containsKey(event.key)) {
         _formData[event.key].add(event.value);
@@ -173,18 +173,18 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
       currentData[event.key] = event.value;
 
-      print("ChangeValueJsonSchemaEvent executed");
+//      print("ChangeValueJsonSchemaEvent executed");
       yield state.copyWith(data: currentData);
     } else if (event is SubmitJsonSchemaEvent) {
       try {
-        print("currentState.data: ${state.data}");
+//        print("currentState.data: ${state.data}");
 
         var formState = formKey?.currentState ?? Form.of(formContext);
 
-        print("formState: $formState");
+//        print("formState: $formState");
 
         if (formState.validate()) {
-          print("Valid form state");
+//          print("Valid form state");
 
           formState.save();
 
