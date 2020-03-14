@@ -58,7 +58,7 @@ $ flutter packages get
 ```
 * Import it Now in your Dart code, you can use:
 ```dart
- import 'package:schema_form/schema_form.dart'; 
+ import 'schema_form_widget.dart'; 
 ```
 
 ### Usage

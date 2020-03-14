@@ -9,3 +9,4 @@ pubspec.lock
 .flutter-plugins
 build
 /local.properties
+*.log

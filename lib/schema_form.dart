@@ -14,21 +14,19 @@
 
 library schema_form;
 
-import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
-import 'package:schema_form/common/parser/divider_parser.dart';
-import 'package:schema_form/common/parser/schema_checkbox_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_column_radio_list_tile_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_dropdown_button_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_form_parser.dart';
-import 'package:schema_form/common/parser/schema_row_radio_list_tile_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_switch_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_text_form_field_parser.dart';
-import 'package:schema_form/common/parser/schema_text_parser.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-export 'package:schema_form/bloc/json_schema_bl.dart';
+import 'bloc/json_schema_bl.dart';
+import 'parser/form_schema_widget_parser.dart';
+import 'parser/schema_checkbox_form_field_schema_widget_parser.dart';
+import 'parser/schema_column_radio_list_tile_form_field_schema_widget_parser.dart';
+import 'parser/schema_dropdown_button_form_field_schema_widget_parser.dart';
+import 'parser/schema_row_radio_list_tile_form_field_schema_widget_parser.dart';
+import 'parser/schema_switch_form_field_schema_widget_parser.dart';
+import 'parser/schema_text_form_field_schema_widget_parser.dart';
+import 'parser/schema_text_schema_widget_parser.dart';
 
 /// [StatelessWidget] for building forms dynamically from JSON schema interpretation.
 /// It takes two JSONs to build the form. A third JSON can be used as a data
@@ -79,17 +77,25 @@ class SchemaForm extends StatelessWidget {
   ///
   /// TODO Remove param [jsonSchemaBloc]
   SchemaForm({Key key, this.jsonSchemaBloc}) : super(key: key) {
+    initialize();
+  }
+
+  /// Initialize [DynamicWidgetBuilder] adding new parsers
+  static void initialize() {
     if (!_initialized) {
-      DynamicWidgetBuilder.addParser(DividerParser());
-      DynamicWidgetBuilder.addParser(SchemaFormParser());
-      DynamicWidgetBuilder.addParser(SchemaTextFormFieldParser());
-      DynamicWidgetBuilder.addParser(SchemaTextParser());
-      DynamicWidgetBuilder.addParser(SchemaCheckboxFormFieldParser());
-      DynamicWidgetBuilder.addParser(
-          SchemaColumnRadioListTileFormFieldParser());
-      DynamicWidgetBuilder.addParser(SchemaRowRadioListTileFormFieldParser());
-      DynamicWidgetBuilder.addParser(SchemaSwitchFormFieldParser());
-      DynamicWidgetBuilder.addParser(SchemaDropdownButtonFormFieldParser());
+      SchemaWidget.registerParser(FormSchemaWidgetParser());
+      SchemaWidget.registerParser(SchemaTextFormFieldSchemaWidgetParser());
+      SchemaWidget.registerParser(SchemaTextSchemaWidgetParser());
+      SchemaWidget.registerParser(SchemaCheckboxFormFieldSchemaWidgetParser());
+      SchemaWidget.registerParser(
+          SchemaColumnRadioListTileFormFieldSchemaWidgetParser());
+      SchemaWidget.registerParser(
+          SchemaRowRadioListTileFormFieldSchemaWidgetParser());
+      SchemaWidget.registerParser(SchemaSwitchFormFieldSchemaWidgetParser());
+      SchemaWidget.registerParser(
+          SchemaDropdownButtonFormFieldSchemaWidgetParser());
+
+      SchemaWidget.registerParsers();
 
       _initialized = true;
     }
@@ -99,7 +105,7 @@ class SchemaForm extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO Internalize recovery through the context of [JsonSchemaBloc]
     return BlocProvider<JsonSchemaBloc>(
-      create: (BuildContext buildContext) => jsonSchemaBloc,
+      create: (buildContext) => jsonSchemaBloc,
       child: BlocBuilder<JsonSchemaBloc, JsonSchemaState>(
         bloc: jsonSchemaBloc,
         condition: (previousState, state) {
@@ -118,11 +124,7 @@ class SchemaForm extends StatelessWidget {
             );
           } else {
             return SingleChildScrollView(
-              child: DynamicWidgetBuilder.buildFromMap(
-                state.layout,
-                context,
-                jsonSchemaBloc,
-              ),
+              child: SchemaWidget.build(context, state.layout),
             );
           }
         },

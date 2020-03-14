@@ -19,9 +19,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
-//        implementation 'org.projectlombok:lombok:1.18.10'
-//        annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        classpath 'com.android.tools.build:gradle:3.5.3'
+//        implementation 'org.projectlombok:lombok:1.18.12'
+//        annotationProcessor 'org.projectlombok:lombok:1.18.12'
     }
 }
 

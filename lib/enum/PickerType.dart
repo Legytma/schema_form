@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Legytma Soluções Inteligentes (https://legytma.com.br).
+// Copyright (c) 2020 Legytma Soluções Inteligentes (https://legytma.com.br).
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -12,19 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:json_schema/json_schema.dart';
-import 'package:meta/meta.dart';
-
-import 'json_schema_event.dart';
-
-/// [JsonSchemaEvent] to load a [JsonSchema].
-class LoadDataSchemaEvent extends JsonSchemaEvent {
-  /// [JsonSchema] that will be loaded.
-  final JsonSchema dataSchema;
-
-  /// Create a [LoadDataSchemaEvent] using a [dataSchema].
-  LoadDataSchemaEvent({@required this.dataSchema});
-
-  @override
-  List<Object> get props => [dataSchema];
-}
+enum PickerType { DateTimePicker, DatePicker, TimePicker }

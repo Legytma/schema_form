@@ -12,22 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-/// [WidgetParser] to parse [DropdownButtonFormField].
-class SchemaDropdownButtonFormFieldParser extends WidgetParser {
+import '../bloc/json_schema_bl.dart';
+
+/// [SchemaWidgetParser] to parse [DropdownButtonFormField].
+class SchemaDropdownButtonFormFieldSchemaWidgetParser
+    extends SchemaWidgetParser {
   @override
-  bool forWidget(String widgetName) {
-    return "SchemaDropdownButtonFormField" == widgetName;
-  }
+  String get parserName => "SchemaDropdownButtonFormField";
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener listener) {
+  JsonSchema get jsonSchema => JsonSchema.createSchema({
+        "\$schema": "http://json-schema.org/draft-06/schema#",
+//        "\$id": "#widget-schema",
+        "title": "Container Parser Schema",
+        "description": "Schema to validation of JSON used to parse Container"
+            " Widget.",
+        "type": "object",
+        "\$comment": "You can add all valid properties to complete validation.",
+        "properties": {
+          "type": {
+            "\$comment": "Used to identify parser. Every parser can permit only"
+                " one type",
+            "title": "Type",
+            "description": "Identify the widget type",
+            "type": "string",
+            "default": parserName,
+            "examples": [parserName],
+            "enum": [parserName],
+            "const": parserName,
+          },
+        },
+        "required": ["type"],
+      });
+
+  @override
+  Widget builder(BuildContext buildContext, Map<String, dynamic> map) {
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
@@ -40,9 +64,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
         switch (fieldSchema.type) {
           case SchemaType.number:
             return _makeDropdownButtonFormField<num>(
-              map,
               buildContext,
-              listener,
+              map,
               snapshot,
               jsonSchemaBloc,
               fieldSchema,
@@ -51,9 +74,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
             break;
           case SchemaType.boolean:
             return _makeDropdownButtonFormField<bool>(
-              map,
               buildContext,
-              listener,
+              map,
               snapshot,
               jsonSchemaBloc,
               fieldSchema,
@@ -62,9 +84,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
             break;
           case SchemaType.integer:
             return _makeDropdownButtonFormField<int>(
-              map,
               buildContext,
-              listener,
+              map,
               snapshot,
               jsonSchemaBloc,
               fieldSchema,
@@ -73,9 +94,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
             break;
           case SchemaType.string:
             return _makeDropdownButtonFormField<String>(
-              map,
               buildContext,
-              listener,
+              map,
               snapshot,
               jsonSchemaBloc,
               fieldSchema,
@@ -84,9 +104,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
             break;
           case SchemaType.object:
             return _makeDropdownButtonFormField<Object>(
-              map,
               buildContext,
-              listener,
+              map,
               snapshot,
               jsonSchemaBloc,
               fieldSchema,
@@ -103,9 +122,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
   }
 
   DropdownButtonFormField _makeDropdownButtonFormField<T>(
-      Map<String, dynamic> map,
       BuildContext buildContext,
-      ClickListener listener,
+      Map<String, dynamic> map,
       AsyncSnapshot snapshot,
       JsonSchemaBloc jsonSchemaBloc,
       JsonSchema fieldSchema,
@@ -124,7 +142,12 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
             fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
       ),
       items: _makeDropdownMenuItems<T>(
-          map, buildContext, listener, snapshot, jsonSchemaBloc, fieldSchema),
+        buildContext,
+        map,
+        snapshot,
+        jsonSchemaBloc,
+        fieldSchema,
+      ),
       validator: (T value) {
         var validator = Validator(fieldSchema);
 
@@ -158,9 +181,8 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
   }
 
   List<DropdownMenuItem<T>> _makeDropdownMenuItems<T>(
-      Map<String, dynamic> map,
       BuildContext buildContext,
-      ClickListener listener,
+      Map<String, dynamic> map,
       AsyncSnapshot snapshot,
       JsonSchemaBloc jsonSchemaBloc,
       JsonSchema fieldSchema) {
@@ -174,11 +196,7 @@ class SchemaDropdownButtonFormFieldParser extends WidgetParser {
 
         currentItem['data'] = value['title'];
 
-        title = DynamicWidgetBuilder.buildFromMap(
-          currentItem,
-          buildContext,
-          listener,
-        );
+        title = SchemaWidget.build(buildContext, currentItem);
       } else {
         title = Text(value['title']);
       }

@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import 'package:meta/meta.dart';
-import 'package:schema_form/bloc/event/json_schema_event.dart';
+
+import 'json_schema_event.dart';
 
 /// [JsonSchemaEvent] to load the serialized form layout in
 /// [Map]<[String], [dynamic]> format.

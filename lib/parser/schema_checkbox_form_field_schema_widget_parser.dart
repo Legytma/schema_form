@@ -12,23 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
-import 'package:schema_form/common/control/checkbox_form_field.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-/// [WidgetParser] to parse [CheckboxFormField].
-class SchemaCheckboxFormFieldParser extends WidgetParser {
+import '../bloc/json_schema_bl.dart';
+import '../widget/control/check_box_form_field_widget.dart';
+
+/// [SchemaWidgetParser] to parse [CheckboxFormField].
+class SchemaCheckboxFormFieldSchemaWidgetParser extends SchemaWidgetParser {
   @override
-  bool forWidget(String widgetName) {
-    return "SchemaCheckboxFormField" == widgetName;
-  }
+  String get parserName => "SchemaCheckboxFormField";
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener listener) {
+  JsonSchema get jsonSchema => JsonSchema.createSchema({
+        "\$schema": "http://json-schema.org/draft-06/schema#",
+//        "\$id": "#widget-schema",
+        "title": "Container Parser Schema",
+        "description": "Schema to validation of JSON used to parse Container"
+            " Widget.",
+        "type": "object",
+        "\$comment": "You can add all valid properties to complete validation.",
+        "properties": {
+          "type": {
+            "\$comment": "Used to identify parser. Every parser can permit only"
+                " one type",
+            "title": "Type",
+            "description": "Identify the widget type",
+            "type": "string",
+            "default": parserName,
+            "examples": [parserName],
+            "enum": [parserName],
+            "const": parserName,
+          },
+        },
+        "required": ["type"],
+      });
+
+  @override
+  Widget builder(BuildContext buildContext, Map<String, dynamic> map) {
     // ignore: close_sinks
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
@@ -39,11 +62,17 @@ class SchemaCheckboxFormFieldParser extends WidgetParser {
     var streamBuilder = StreamBuilder(
       stream: jsonSchemaBloc.getFieldStream(map['key']),
       builder: (context, snapshot) {
-        return CheckboxFormField(
+        return CheckBoxFormFieldWidget.createScope(
           autoValidate:
               map.containsKey('autovalidate') ? map['autovalidate'] : false,
           initialValue: snapshot?.data ?? fieldSchema.defaultValue ?? false,
-          title: fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
+          decoration: InputDecoration(
+            labelText:
+                fieldSchema.title + (fieldSchema.requiredOnParent ? ' *' : ''),
+            helperText: fieldSchema.description,
+            hintText:
+                "${fieldSchema.examples.isEmpty ? "" : fieldSchema.examples?.first}",
+          ),
           validator: (bool value) {
             var validator = Validator(fieldSchema);
 
@@ -63,7 +92,7 @@ class SchemaCheckboxFormFieldParser extends WidgetParser {
 
             return;
           },
-          onChange: (value) {
+          onChanged: (value) {
             jsonSchemaBloc.add(
               ChangeValueJsonSchemaEvent(
                 key: map['key'],

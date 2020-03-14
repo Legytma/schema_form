@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:schema_form/bloc/event/json_schema_event.dart';
+import 'json_schema_event.dart';
 
 /// [JsonSchemaEvent] form submission.
 class SubmitJsonSchemaEvent extends JsonSchemaEvent {

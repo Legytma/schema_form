@@ -34,7 +34,7 @@
             }
           },
           {
-            "type": "SchemaForm",
+            "type": "Form",
             "autovalidate": false,
             "child": {
               "type": "Container",
@@ -167,7 +167,7 @@
                     "type": "Container",
                     "child": {
                       "type": "RaisedButton",
-                      "click_event": "SchemaForm://submit",
+                      "click_event": "schemaFormSubmit",
                       "child": {"type": "Text", "data": "Submit"}
                     }
                   }

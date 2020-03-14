@@ -16,19 +16,22 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:json_schema/vm.dart';
+import 'package:logging/logging.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:schema_widget/schema_widget.dart';
+
+import 'json_schema_bl.dart';
 
 /// [Bloc] for managing [JsonSchemaState] through the use of [JsonSchemaEvent]
 /// which implements [ClickListener] used to handle the click event of controls.
 ///
 /// This is the business logic used to manage the form.
-class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
-    implements ClickListener {
+class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState> {
+  static final Logger _log = Logger("JsonSchemaBloc");
+
   final Map<String, BehaviorSubject<dynamic>> _formData =
       <String, BehaviorSubject<dynamic>>{};
 
@@ -65,6 +68,8 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
   }) {
     configureJsonSchemaForVm();
 //    configureJsonSchemaForBrowser();
+
+    SchemaWidget.registerLogic("schemaFormSubmit", _schemaFormSubmit);
   }
 
   /// Get [JsonSchema] from the [fieldName] property of [dataSchema] present in
@@ -139,8 +144,8 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       _initDataBinding(event.dataSchema?.properties);
 
       yield state.copyWith(dataSchema: event.dataSchema);
-//      print("LoadJsonSchemaEvent executed");
-//
+      _log.finer("LoadJsonSchemaEvent executed");
+
 //      currentState.data?.forEach((key, value) {
 //        print("Loaded(key: ${key}, value: ${value})");
 //        if (_formData.containsKey(key)) {
@@ -153,17 +158,17 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
       currentData?.forEach((key, value) {
         if (_formData.containsKey(key)) {
           _formData[key].add(value);
-//          print("Loaded(key: $key, value: $value)");
+          _log.finest("Loaded(key: $key, value: $value)");
         }
       });
 
       yield state.copyWith(data: event.data);
-//      print("LoadDataEvent executed");
+      _log.finer("LoadDataEvent executed");
     } else if (event is LoadLayoutSchemaEvent) {
       yield state.copyWith(layout: event.layout);
-//      print("LoadLayoutSchemaEvent executed");
+      _log.finer("LoadLayoutSchemaEvent executed");
     } else if (event is ChangeValueJsonSchemaEvent) {
-//      print("event.key: ${event.key}, event.value: ${event.value}");
+      _log.finer("event.key: ${event.key}, event.value: ${event.value}");
 
       if (_formData.containsKey(event.key)) {
         _formData[event.key].add(event.value);
@@ -173,47 +178,38 @@ class JsonSchemaBloc extends Bloc<JsonSchemaEvent, JsonSchemaState>
 
       currentData[event.key] = event.value;
 
-//      print("ChangeValueJsonSchemaEvent executed");
+      _log.finer("ChangeValueJsonSchemaEvent executed");
       yield state.copyWith(data: currentData);
     } else if (event is SubmitJsonSchemaEvent) {
-      try {
-//        print("currentState.data: ${state.data}");
+      _log.finer("currentState.data: ${state.data}");
 
-        var formState = formKey?.currentState ?? Form.of(formContext);
+      var formState = formKey?.currentState ?? Form.of(formContext);
 
-//        print("formState: $formState");
+      _log.finer("formState: $formState");
 
-        if (formState.validate()) {
-//          print("Valid form state");
+      if (formState.validate()) {
+        _log.fine("Valid form state");
 
-          formState.save();
+        formState.save();
 
-          var validator = Validator(state.dataSchema);
+        var validator = Validator(state.dataSchema);
 
-          if (validator.validate(state.data)) {
-            _submitData.add(json.encode(state.data));
-          } else {
-            _submitData.add(validator.errors.toString());
-          }
+        if (validator.validate(state.data)) {
+          _submitData.add(json.encode(state.data));
         } else {
-          _submitData.add("Invalid form state");
+          _submitData.add(validator.errors.toString());
         }
-      } on Error catch (e) {
-        _submitData.add(e.toString());
+      } else {
+        _submitData.add("Invalid form state");
       }
 
       yield state;
     }
   }
 
-  @override
-  void onClicked(String event) {
-    if ('SchemaForm://submit' == event) {
-      print("Executing: $event");
+  void _schemaFormSubmit() {
+    _log.info("Executing: schemaFormSubmit");
 
-      add(SubmitJsonSchemaEvent());
-    } else {
-      print("Click event not implemented: $event");
-    }
+    add(SubmitJsonSchemaEvent());
   }
 }

@@ -1,0 +1,107 @@
+{
+  "type": "MaterialApp",
+  "locale": {
+    "languageCode": "pt",
+    "countryCode": "BR"
+  },
+  "title": "Uber Clone",
+  "theme": {
+    "type": "ThemeData",
+    "primarySwatch": "#0000ff"
+  },
+  "home": {
+    "type": "Scaffold",
+    "body": {
+      "type": "SafeArea",
+      "child": {
+        "type": "SchemaForm",
+        "layout": {
+          "type": "Stack",
+          "children": [
+            {
+              "type": "Positioned",
+              "top": 50.0,
+              "right": 15.0,
+              "left": 15.0,
+              "child": {
+                "type": "Container",
+                "left": 50.0,
+                "width": 50000000.0,
+                "decoration": {
+                  "type": "BoxDecoration",
+                  "borderRadius": 3.0,
+                  "color": "#ffffff",
+                  "boxShadow": [
+                    {
+                      "color": "#bebebe",
+                      "offset": {
+                        "dx": 1.0,
+                        "dy": 5.0
+                      },
+                      "blurRadius": 10.0,
+                      "spreadRadius": 3.0
+                    }
+                  ]
+                },
+                "child": {
+                  "type": "SchemaTextFormField",
+                  "key": "location"
+                }
+              }
+            },
+            {
+              "type": "Positioned",
+              "top": 105.0,
+              "right": 15.0,
+              "left": 15.0,
+              "child": {
+                "type": "Container",
+                "left": 50.0,
+                "width": 50000000.0,
+                "decoration": {
+                  "type": "BoxDecoration",
+                  "borderRadius": 3.0,
+                  "color": "#ffffff",
+                  "boxShadow": [
+                    {
+                      "color": "#bebebe",
+                      "offset": {
+                        "dx": 1.0,
+                        "dy": 5.0
+                      },
+                      "blurRadius": 10.0,
+                      "spreadRadius": 3.0
+                    }
+                  ]
+                },
+                "child": {
+                  "type": "SchemaTextFormField",
+                  "key": "destination"
+                }
+              }
+            }
+          ]
+        },
+        "schema": {
+          "$schema": "http://json-schema.org/draft-06/schema#",
+          "title": "Uber Home Screen",
+          "description": "A simple example of Uber Clone using SchemaForm",
+          "type": "object",
+          "required": [
+            "destination"
+          ],
+          "properties": {
+            "location": {
+              "type": "string",
+              "title": "Location"
+            },
+            "destination": {
+              "type": "string",
+              "title": "Destination"
+            }
+          }
+        }
+      }
+    }
+  }
+}

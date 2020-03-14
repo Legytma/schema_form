@@ -12,20 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
-import 'package:schema_form/common/control/radio_list_form_field.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-/// Abstract class that extends [WidgetParser] to parse from a list of
+import '../bloc/json_schema_bl.dart';
+import '../widget/control/radio_list_form_field.dart';
+
+/// Abstract class that extends [SchemaWidgetParser] to parse from a list of
 /// [RadioListFormField].
-abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
+abstract class SchemaRadioListTileFormFieldSchemaWidgetParser
+    extends SchemaWidgetParser {
   /// Parse a list of [RadioListFormField] using [map], [buildContext] and
   /// [listener].
-  List<Widget> parseItems(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener listener) {
+  List<Widget> parseItems(BuildContext buildContext, Map<String, dynamic> map) {
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
@@ -47,9 +48,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
       switch (fieldSchema.type) {
         case SchemaType.number:
           item = _makeRadioListTile<num>(
-            map,
             buildContext,
-            listener,
+            map,
             jsonSchemaBloc,
             fieldSchema,
             titleEnum,
@@ -59,9 +59,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
           break;
         case SchemaType.boolean:
           item = _makeRadioListTile<bool>(
-            map,
             buildContext,
-            listener,
+            map,
             jsonSchemaBloc,
             fieldSchema,
             titleEnum,
@@ -71,9 +70,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
           break;
         case SchemaType.integer:
           item = _makeRadioListTile<int>(
-            map,
             buildContext,
-            listener,
+            map,
             jsonSchemaBloc,
             fieldSchema,
             titleEnum,
@@ -83,9 +81,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
           break;
         case SchemaType.string:
           item = _makeRadioListTile<String>(
-            map,
             buildContext,
-            listener,
+            map,
             jsonSchemaBloc,
             fieldSchema,
             titleEnum,
@@ -95,9 +92,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
           break;
         case SchemaType.object:
           item = _makeRadioListTile<Object>(
-            map,
             buildContext,
-            listener,
+            map,
             jsonSchemaBloc,
             fieldSchema,
             titleEnum,
@@ -117,9 +113,8 @@ abstract class SchemaRadioListTileFormFieldParser extends WidgetParser {
   }
 
   Widget _makeRadioListTile<T>(
-      Map<String, dynamic> map,
       BuildContext buildContext,
-      ClickListener listener,
+      Map<String, dynamic> map,
       JsonSchemaBloc jsonSchemaBloc,
       JsonSchema fieldSchema,
       String title,

@@ -12,23 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
+import 'package:json_schema/src/json_schema/json_schema.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-/// [WidgetParser] to parse [Text] with value of [JsonSchema] property.
-class SchemaTextParser implements WidgetParser {
+import '../bloc/json_schema_bl.dart';
+
+/// [SchemaWidgetParser] to parse [Text] with value of [JsonSchema] property.
+class SchemaTextSchemaWidgetParser extends SchemaWidgetParser {
   @override
-  bool forWidget(String widgetName) {
-    return "SchemaText" == widgetName;
-  }
+  String get parserName => "SchemaText";
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener listener) {
+  JsonSchema get jsonSchema => JsonSchema.createSchema({
+        "\$schema": "http://json-schema.org/draft-06/schema#",
+//        "\$id": "#widget-schema",
+        "title": "Container Parser Schema",
+        "description": "Schema to validation of JSON used to parse Container"
+            " Widget.",
+        "type": "object",
+        "\$comment": "You can add all valid properties to complete validation.",
+        "properties": {
+          "type": {
+            "\$comment": "Used to identify parser. Every parser can permit only"
+                " one type",
+            "title": "Type",
+            "description": "Identify the widget type",
+            "type": "string",
+            "default": parserName,
+            "examples": [parserName],
+            "enum": [parserName],
+            "const": parserName,
+          },
+        },
+        "required": ["type"],
+      });
+
+  @override
+  Widget builder(BuildContext buildContext, Map<String, dynamic> map) {
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
     var addressList = map['propertyAddress'].toString().split(".");

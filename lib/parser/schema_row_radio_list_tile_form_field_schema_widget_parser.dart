@@ -12,25 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:dynamic_widget/dynamic_widget.dart';
-import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
-import 'package:schema_form/common/parser/abstract_schema_radio_list_tile_form_field_parser.dart';
+import 'package:json_schema/src/json_schema/json_schema.dart';
+import 'package:schema_widget/schema_widget.dart';
 
-/// [SchemaRadioListTileFormFieldParser] to parse [Column] of [RadioListTile].
-class SchemaColumnRadioListTileFormFieldParser
-    extends SchemaRadioListTileFormFieldParser {
+import '../bloc/json_schema_bl.dart';
+import 'abstract_schema_radio_list_tile_form_field_schema_widget_parser.dart';
+
+/// [SchemaRadioListTileFormFieldSchemaWidgetParser] to parse [Row] of
+/// [RadioListTile].
+class SchemaRowRadioListTileFormFieldSchemaWidgetParser
+    extends SchemaRadioListTileFormFieldSchemaWidgetParser {
   @override
-  bool forWidget(String widgetName) {
-    return "SchemaColumnRadioListTileFormField" == widgetName;
-  }
+  String get parserName => "SchemaRowRadioListTileFormField";
 
   @override
-  Widget parse(Map<String, dynamic> map, BuildContext buildContext,
-      ClickListener listener) {
-    // ignore: close_sinks
+  JsonSchema get jsonSchema => JsonSchema.createSchema({
+        "\$schema": "http://json-schema.org/draft-06/schema#",
+//        "\$id": "#widget-schema",
+        "title": "Container Parser Schema",
+        "description": "Schema to validation of JSON used to parse Container"
+            " Widget.",
+        "type": "object",
+        "\$comment": "You can add all valid properties to complete validation.",
+        "properties": {
+          "type": {
+            "\$comment": "Used to identify parser. Every parser can permit only"
+                " one type",
+            "title": "Type",
+            "description": "Identify the widget type",
+            "type": "string",
+            "default": parserName,
+            "examples": [parserName],
+            "enum": [parserName],
+            "const": parserName,
+          },
+        },
+        "required": ["type"],
+      });
+
+  @override
+  Widget builder(BuildContext buildContext, Map<String, dynamic> map) {
     final jsonSchemaBloc = BlocProvider.of<JsonSchemaBloc>(buildContext);
 
 //      print('jsonSchemaBloc: $jsonSchemaBloc');
@@ -44,13 +67,7 @@ class SchemaColumnRadioListTileFormFieldParser
 
         titleMap['data'] = fieldSchema.title;
 
-        listItems.add(
-          DynamicWidgetBuilder.buildFromMap(
-            titleMap,
-            buildContext,
-            listener,
-          ),
-        );
+        listItems.add(SchemaWidget.build(buildContext, titleMap));
       } else {
         listItems.add(Text(fieldSchema.title));
       }
@@ -62,19 +79,13 @@ class SchemaColumnRadioListTileFormFieldParser
 
         descriptionMap['data'] = fieldSchema.description;
 
-        listItems.add(
-          DynamicWidgetBuilder.buildFromMap(
-            descriptionMap,
-            buildContext,
-            listener,
-          ),
-        );
+        listItems.add(SchemaWidget.build(buildContext, descriptionMap));
       } else {
         listItems.add(Text(fieldSchema.description));
       }
     }
 
-    listItems.add(Column(
+    listItems.add(Row(
       crossAxisAlignment: map.containsKey('crossAxisAlignment')
           ? parseCrossAxisAlignment(map['crossAxisAlignment'])
           : CrossAxisAlignment.center,
@@ -93,7 +104,7 @@ class SchemaColumnRadioListTileFormFieldParser
       verticalDirection: map.containsKey('verticalDirection')
           ? parseVerticalDirection(map['verticalDirection'])
           : VerticalDirection.down,
-      children: parseItems(map, buildContext, listener),
+      children: parseItems(buildContext, map),
     ));
 
     return Column(children: listItems);
