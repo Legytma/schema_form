@@ -227,9 +227,7 @@ class SchemaFormWidgetState extends State<SchemaFormWidget> {
 
     if (_data != null && _data[key] != null) {
       fieldController.add(_data[key]);
-    }
-
-    if (value != null) {
+    } else if (value != null) {
       fieldController.add(value);
     }
 

@@ -6,8 +6,9 @@
   },
   "title": "Uber Clone",
   "theme": {
-    "type": "ThemeData",
-    "primarySwatch": "#0000ff"
+    "primarySwatch": {
+      "primary": "#0000ff"
+    }
   },
   "home": {
     "type": "Scaffold",
@@ -15,9 +16,12 @@
       "type": "SafeArea",
       "child": {
         "type": "SchemaForm",
-        "layout": {
+        "child": {
           "type": "Stack",
           "children": [
+            {
+              "type": "GoogleMap"
+            },
             {
               "type": "Positioned",
               "top": 50.0,
@@ -44,8 +48,8 @@
                   ]
                 },
                 "child": {
-                  "type": "SchemaTextFormField",
-                  "key": "location"
+                  "type": "TextSchemaFormField",
+                  "fieldName": "location"
                 }
               }
             },
@@ -75,14 +79,14 @@
                   ]
                 },
                 "child": {
-                  "type": "SchemaTextFormField",
-                  "key": "destination"
+                  "type": "TextSchemaFormField",
+                  "fieldName": "destination"
                 }
               }
             }
           ]
         },
-        "schema": {
+        "jsonSchema": {
           "$schema": "http://json-schema.org/draft-06/schema#",
           "title": "Uber Home Screen",
           "description": "A simple example of Uber Clone using SchemaForm",

@@ -14,22 +14,32 @@
 
 import 'package:flutter/material.dart';
 
-@immutable
-abstract class WidgetTemplate<T extends Widget> extends Widget {
-  T createWidgetInstance(
-      BuildContext context, Map<String, dynamic> aditionalProperties);
+import 'main.dart';
 
-  @protected
-  dynamic getAditionalPropertyValue(String key,
-      Map<String, dynamic> aditionalProperties, dynamic defaultValue) {
-    if (aditionalProperties != null && aditionalProperties.containsKey(key)) {
-      return aditionalProperties[key];
-    }
-
-    return defaultValue;
-  }
+class HomeWidget extends StatelessWidget {
+  static final String title = "Home";
 
   @override
-  Element createElement() =>
-      throw Exception("This widget cannot be instanted.");
+  Widget build(BuildContext context) {
+    var drawerItens = <Widget>[getDefaultHeader(context)];
+
+    drawerItens.addAll(getItens(context));
+
+    return Scaffold(
+      appBar: getDefaultAppBar(context),
+      drawer: Drawer(
+        child: ListView(
+          children: drawerItens,
+        ),
+      ),
+      body: Center(
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.arrow_back),
+            Text("Uilize o menu lateral para navegar entre os exemplos."),
+          ],
+        ),
+      ),
+    );
+  }
 }

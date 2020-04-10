@@ -12,4 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-enum PickerType { DateTimePicker, DatePicker, TimePicker }
+enum PickerType {
+  DateTimePicker,
+  DatePicker,
+  TimePicker,
+}

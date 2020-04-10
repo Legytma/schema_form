@@ -18,7 +18,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_schema/json_schema.dart';
-import 'package:schema_form/bloc/json_schema_bl.dart';
 
 /// [enum] type of location where files are stored.
 enum FileLocate {
@@ -32,24 +31,24 @@ enum FileLocate {
   url,
 }
 
-/// Load [JsonSchema] from [FileLocate]
-Future loadSchemasFrom(BuildContext context, FileLocate fileLocate,
-    JsonSchemaBloc jsonSchemaBloc) {
-  var loads = <Future>[];
-
-  loads.add(loadJsonFrom(context, fileLocate, "testLayoutSchema.json").then(
-      (layoutSchema) =>
-          jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchema))));
-
-  loads.add(loadJsonFrom(context, fileLocate, "testDataSchema.json").then(
-      (jsonMap) => jsonSchemaBloc.add(
-          LoadDataSchemaEvent(dataSchema: JsonSchema.createSchema(jsonMap)))));
-
-  loads.add(loadJsonFrom(context, fileLocate, "testDataValue.json")
-      .then((dataValue) => jsonSchemaBloc.add(LoadDataEvent(data: dataValue))));
-
-  return Future.wait(loads);
-}
+///// Load [JsonSchema] from [FileLocate]
+//Future loadSchemasFrom(BuildContext context, FileLocate fileLocate,
+//    JsonSchemaBloc jsonSchemaBloc) {
+//  var loads = <Future>[];
+//
+//  loads.add(loadJsonFrom(context, fileLocate, "testLayoutSchema.json").then(
+//      (layoutSchema) =>
+//          jsonSchemaBloc.add(LoadLayoutSchemaEvent(layout: layoutSchema))));
+//
+//  loads.add(loadJsonFrom(context, fileLocate, "testDataSchema.json").then(
+//      (jsonMap) => jsonSchemaBloc.add(
+//          LoadDataSchemaEvent(dataSchema: JsonSchema.createSchema(jsonMap)))));
+//
+//  loads.add(loadJsonFrom(context, fileLocate, "testDataValue.json")
+//      .then((dataValue) => jsonSchemaBloc.add(LoadDataEvent(data: dataValue))));
+//
+//  return Future.wait(loads);
+//}
 
 /// Load JSON from [FileLocate]
 Future<Map<String, dynamic>> loadJsonFrom(

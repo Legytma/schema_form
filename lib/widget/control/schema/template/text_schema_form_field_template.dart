@@ -150,54 +150,6 @@ class TextSchemaFormFieldTemplate
   });
 
   @override
-  List<Object> get props => [
-        key,
-        fieldName,
-        controller,
-        initialValue,
-        focusNode,
-        decoration,
-        keyboardType,
-        textCapitalization,
-        textInputAction,
-        style,
-        strutStyle,
-        textDirection,
-        textAlign,
-        textAlignVertical,
-        autofocus,
-        readOnly,
-        toolbarOptions,
-        showCursor,
-        obscureText,
-        autocorrect,
-        enableSuggestions,
-        autovalidate,
-        maxLengthEnforced,
-        maxLines,
-        minLines,
-        expands,
-        maxLength,
-        onChanged,
-        onTap,
-        onEditingComplete,
-        onFieldSubmitted,
-        onSaved,
-        validator,
-        inputFormatters,
-        enabled,
-        cursorWidth,
-        cursorRadius,
-        cursorColor,
-        keyboardAppearance,
-        scrollPadding,
-        enableInteractiveSelection,
-        buildCounter,
-        dateFormat,
-        pickerType,
-      ];
-
-  @override
   TextSchemaFormFieldWidget createWidgetInstance(
       BuildContext context, Map<String, dynamic> aditionalProperties) {
     return TextSchemaFormFieldWidget(

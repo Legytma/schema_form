@@ -123,7 +123,7 @@ class SwitchSchemaFormFieldWidgetState
   void dispose() {
     _log.finest("Executing dispose...");
 
-    _streamSubscription.cancel();
+    _streamSubscription?.cancel();
     _streamSubscription = null;
 
     _schemaFormWidgetState?.disposeFieldController(key: widget.fieldName);

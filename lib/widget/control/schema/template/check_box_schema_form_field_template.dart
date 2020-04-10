@@ -92,23 +92,4 @@ class CheckBoxSchemaFormFieldTemplate
           "autoValidate", aditionalProperties, autoValidate),
     );
   }
-
-  @override
-  List<Object> get props => [
-        key,
-        fieldName,
-        controller,
-        onSaved,
-        onChanged,
-        validator,
-        initialValue,
-        decoration,
-        autoValidate,
-        enabled,
-        activeColor,
-        isThreeLine,
-        selected,
-        controlAffinity,
-        checkColor,
-      ];
 }

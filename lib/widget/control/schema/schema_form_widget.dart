@@ -71,7 +71,7 @@ class SchemaFormWidget extends StatefulWidget {
   /// Create instance
   SchemaFormWidget({
     Key key,
-    @required this.child,
+    this.child,
     this.autovalidate = false,
     this.onWillPop,
     this.onChanged,

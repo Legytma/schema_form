@@ -13,32 +13,40 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:schema_form/schema_form.dart';
 import 'package:schema_widget/schema_widget.dart';
 
 import 'json_utils.dart';
-import 'parser/schema_form_schema_widget_parser.dart';
 
 /// [StatelessWidget] main with dynamic creation from the interpretation of a
 /// JSON.
-class MyDynamicApp extends StatelessWidget {
-//  static final Logger _log = Logger("MyDynamicApp");
+class DynamicSchemaFormWidget extends StatelessWidget {
+  static final Logger _log = Logger("DynamicSchemaFormWidget");
+  static final String title = "Dynamic Layout";
 
   static bool _initialized = false;
 
-  final String _asset;
+  final GlobalKey<SchemaFormWidgetState> _schemaFormKey =
+      GlobalKey<SchemaFormWidgetState>();
 
-  /// Create [MyDynamicApp]
-  MyDynamicApp(this._asset, {Key key}) : super(key: key) {
+  /// Create [DynamicSchemaFormWidget]
+  DynamicSchemaFormWidget({Key key}) : super(key: key) {
     initialize();
+
+    SchemaWidget.registerLogic("schemaFromKey", _schemaFormKey);
+    SchemaWidget.registerLogic("savePressed", _savePressed);
+    SchemaWidget.registerLogic("onSave", _onSave);
   }
 
   /// Initialize [DynamicWidgetBuilder] adding new parsers
   static void initialize() {
     if (!_initialized) {
-      SchemaWidget.registerParser(SchemaFormSchemaWidgetParser());
+      SchemaWidget.registerParsers();
+//      SchemaWidget.registerParser(SchemaFormWidgetSchemaWidgetParser());
+//      SchemaWidget.registerParser(IconButtonSchemaWidgetParser());
 
-      SchemaForm.initialize();
+//      SchemaForm.initialize();
 
       _initialized = true;
     }
@@ -46,8 +54,11 @@ class MyDynamicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> params =
+        ModalRoute.of(context).settings.arguments;
+
     return FutureBuilder(
-      future: loadJsonFrom(context, FileLocate.asset, _asset),
+      future: loadJsonFrom(context, params['fileLocate'], params['filePath']),
       builder: (futureContext, asyncSnapshot) {
         if (asyncSnapshot.hasData) {
           return SchemaWidget.build(context, asyncSnapshot.data);
@@ -60,5 +71,17 @@ class MyDynamicApp extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onSave(value) => _log.info("Saved: $value");
+
+  void _savePressed() {
+    var schemaFormState = _schemaFormKey.currentState;
+
+    //                  _log.finest("schemaFormState: $schemaFormState");
+
+    var schemaFormSaved = schemaFormState.save();
+
+    _log.info("schemaFormSaved: $schemaFormSaved");
   }
 }

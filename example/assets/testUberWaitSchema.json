@@ -6,8 +6,9 @@
   },
   "title": "Uber Clone",
   "theme": {
-    "type": "ThemeData",
-    "primarySwatch": "#0000ff"
+    "primarySwatch": {
+      "primary": "#0000ff"
+    }
   },
   "home": {
     "type": "Scaffold",

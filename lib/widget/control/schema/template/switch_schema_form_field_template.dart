@@ -104,26 +104,4 @@ class SwitchSchemaFormFieldTemplate
           "validator", aditionalProperties, validator),
     );
   }
-
-  @override
-  List<Object> get props => [
-        key,
-        fieldName,
-        controller,
-        onSaved,
-        onChanged,
-        validator,
-        initialValue,
-        decoration,
-        autoValidate,
-        enabled,
-        activeColor,
-        activeTrackColor,
-        inactiveThumbColor,
-        inactiveTrackColor,
-        inactiveThumbImage,
-        activeThumbImage,
-        isThreeLine,
-        selected,
-      ];
 }
