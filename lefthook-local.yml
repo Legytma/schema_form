@@ -1,0 +1,21 @@
+commit-msg:
+  scripts:
+    "conform.sh":
+      runner: bash
+
+pre-commit:
+  scripts:
+    "eslint.sh":
+      runner: bash
+    "pretty.sh":
+      runner: bash
+
+pre-push:
+  parallel: false
+  commands:
+    dependencies:
+      run: refreshenv && dependency_validator --exclude-dir example --ignore flutter_driver
+    tests:
+      run: refreshenv && flutter test test
+    linter:
+      run: refreshenv && flutter analyze

@@ -11,3 +11,6 @@ build
 /local.properties
 *.log
 flutter_export_environment.sh
+node_modules
+*.old
+.flutter-plugins-dependencies

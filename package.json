@@ -1,0 +1,32 @@
+{
+  "name": "schema_form_builder",
+  "version": "1.0.0-5",
+  "description": "Schema Documentation Builder",
+  "scripts": {
+    "schema-update": "node .standard-version/update-schema-references.js",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Legytma/schema_form.git"
+  },
+  "keywords": [
+    "Legytma",
+    "json-schema",
+    "schema_form",
+    "standard-verion"
+  ],
+  "author": "Alex Manoel Ferreira Silva <alex@legytma.com.br>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Legytma/schema_form/issues"
+  },
+  "homepage": "https://github.com/Legytma/schema_form#readme",
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-google": "^0.14.0",
+    "replace-in-file": "^6.1.0",
+    "standard-version": "^8.0.2",
+    "yaml": "^1.10.0"
+  }
+}
