@@ -10,3 +10,4 @@ pubspec.lock
 build
 /local.properties
 *.log
+flutter_export_environment.sh

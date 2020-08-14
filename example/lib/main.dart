@@ -15,22 +15,16 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
+import 'package:schema_form/enum/PickerType.dart';
+import 'package:schema_form/schema_form.dart';
+import 'package:schema_form/widget/control/schema/template/switch_schema_form_field_template.dart';
+import 'package:schema_form/widget/control/schema/template/text_schema_form_field_template.dart';
 
-import 'app_routed.dart';
-import 'dynamic_schema_form_widget.dart';
-import 'json_utils.dart';
-import 'static_schema_form_widget.dart';
-
-//const String APP_TO_RUN_ID = null;
-//const String APP_TO_RUN_ID = "";
-const String APP_TO_RUN_ID = "routed";
-//const String APP_TO_RUN_ID = "testAppLayoutSchema.json";
-//const String APP_TO_RUN_ID = "testUberWaitSchema.json";
-//const String APP_TO_RUN_ID = "testUberHomeSchema.json";
-
-void main() {
+Future<void> main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((rec) => developer.log(rec.message,
       error: rec.error,
@@ -41,85 +35,198 @@ void main() {
       time: rec.time,
       zone: rec.zone));
 
-  initializeDateFormatting("pt_BR", null).then((_) {
-    runApp(AppRouted());
-//    if (APP_TO_RUN_ID == "") {
-//      runApp(MyAppStatic());
-//    } else if (APP_TO_RUN_ID == null) {
-//      runApp(MyApp());
-//    } else if (APP_TO_RUN_ID == "routed") {
-//      runApp(MyAppRouted());
-//    } else {
-//      runApp(MyDynamicApp(APP_TO_RUN_ID));
-//    }
-  });
+  await initializeDateFormatting("pt_BR", null);
+
+  runApp(MyApp());
 }
 
-Widget getDefaultHeader(BuildContext context) {
-  final Map<String, dynamic> params = ModalRoute.of(context).settings.arguments;
-
-  return DrawerHeader(
-    child: Text(params['title']),
-    decoration: BoxDecoration(
-      color: Colors.blue,
-    ),
-  );
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      locale: Locale("pt", "BR"),
+      home: MyHomePage(title: 'Schema Form Demo'),
+    );
+  }
 }
 
-List<Widget> getItens(BuildContext context) {
-//    final Map<String, dynamic> params =
-//        ModalRoute.of(context).settings.arguments;
+class MyHomePage extends StatelessWidget {
+  static final Logger _log = Logger('MyHomePage');
 
-  return <Widget>[
-    ListTile(
-      title: Text(StaticSchemaFormWidget.title),
-      onTap: () => Navigator.of(context).popAndPushNamed(
-        "static",
-        arguments: {
-          "title": StaticSchemaFormWidget.title,
+  final GlobalKey<SchemaFormWidgetState> _schemaFormKey =
+      GlobalKey<SchemaFormWidgetState>();
+
+  final String title;
+
+  final formJsonSchema = JsonSchema.createSchema(
+    {
+      "\$schema": "http://json-schema.org/draft-06/schema#",
+      "title": "Example of use",
+      "description": "A simple example of JSON Schema Dynamic Layout Form",
+      "type": "object",
+      "required": ["higroup", "email", "password", "Checkbox", "radiobuton1"],
+      "properties": {
+        "higroup": {
+          "type": "string",
+          "title": "Hi Group",
+          "default": "Hi Group flutter"
         },
+        "password": {"type": "string", "title": "Password"},
+        "email": {
+          "type": "string",
+          "title": "Email test",
+          "default": "hola a todos",
+          "format": "email"
+        },
+        "url": {
+          "type": "string",
+          "title": "URL",
+          "default": "hola a todos",
+          "format": "uri"
+        },
+        "tareatexttest": {
+          "type": "string",
+          "title": "TareaText test",
+          "default": "hola a todos"
+        },
+        "radiobuton1": {
+          "type": "integer",
+          "title": "Radio Button test 1",
+          "enum": [1, 2, 3],
+        },
+        "radiobuton2": {
+          "type": "integer",
+          "title": "Radio Button test 2",
+          "enum": [1, 2, 3],
+        },
+        "switch": {"type": "boolean", "title": "Switch test", "const": true},
+        "Checkbox": {
+          "type": "boolean",
+          "title": "Checkbox test",
+        },
+        "Checkbox1": {
+          "type": "boolean",
+          "title": "Checkbox test 2",
+        },
+        "dropdownstring": {
+          "type": "string",
+          "title": "DropdownString test",
+          "enum": ["item1", "item2", "item3"],
+        },
+        "dropdownnumber": {
+          "type": "number",
+          "title": "DropdownNumber test",
+          "enum": [1, 2, 3, 3.5],
+        },
+        "liststring": {
+          "type": "string",
+          "title": "List String",
+          "default": "Item",
+        },
+        "listnumber": {
+          "type": "number",
+          "title": "List Number",
+          "default": "0",
+        },
+        "date": {
+          "type": "string",
+          "title": "Date",
+          "default": "1900-01-01",
+          "tooltip": "Date",
+          "format": "date-time"
+        },
+        "datetime": {
+          "type": "string",
+          "title": "Date Time",
+          "default": "1900-01-01 00:00:00",
+          "tooltip": "Date Time",
+          "format": "date-time"
+        },
+        "time": {
+          "type": "string",
+          "title": "Time",
+          "default": "00:00:00",
+          "tooltip": "Time",
+          "format": "date-time"
+        }
+      }
+    },
+  );
+
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.save), onPressed: _savePressed),
+        ],
       ),
-    ),
-    _getDynamicItens(
-      context,
-      FileLocate.asset,
-      "${DynamicSchemaFormWidget.title}: App Layout",
-      "testAppLayoutSchema.json",
-    ),
-    _getDynamicItens(
-      context,
-      FileLocate.asset,
-      "${DynamicSchemaFormWidget.title}: Uber Home",
-      "testUberHomeSchema.json",
-    ),
-    _getDynamicItens(
-      context,
-      FileLocate.asset,
-      "${DynamicSchemaFormWidget.title}: Uber Wait",
-      "testUberWaitSchema.json",
-    ),
-  ];
-}
+      body: SchemaFormWidget(
+        key: _schemaFormKey,
+        jsonSchema: formJsonSchema,
+        autovalidate: true,
+        onSave: (value) {
+          _log.info("onSave: $value");
+        },
+        typeTemplateMap: {
+          SchemaType.integer: TextSchemaFormFieldTemplate(
+            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+          ),
+        },
+        controlTemplateMap: {
+          "switch": SwitchSchemaFormFieldTemplate(),
+          "testSwitch": SwitchSchemaFormFieldTemplate(),
+          "password": TextSchemaFormFieldTemplate(
+            keyboardType: TextInputType.visiblePassword,
+            obscureText: true,
+          ),
+          "date": TextSchemaFormFieldTemplate(
+            pickerType: PickerType.DatePicker,
+            dateFormat: "dd/MM/y",
+          ),
+          "datetime": TextSchemaFormFieldTemplate(
+            pickerType: PickerType.DateTimePicker,
+            dateFormat: "dd/MM/y hh:mm:ss",
+          ),
+          "time": TextSchemaFormFieldTemplate(
+            pickerType: PickerType.TimePicker,
+            dateFormat: "hh:mm:ss",
+          ),
+        },
+//          child: ListView(
+//            children: <Widget>[
+//              TitleTextSchemaFormWidget(),
+//              SubTitleTextSchemaFormWidget(),
+//              TextSchemaFormFieldWidget(fieldName: "higroup"),
+//              TextSchemaFormFieldWidget(fieldName: "password"),
+//              TextSchemaFormFieldWidget(fieldName: "email"),
+//              TextSchemaFormFieldWidget(fieldName: "url"),
+//              TextSchemaFormFieldWidget(fieldName: "tareatexttest"),
+//              SwitchSchemaFormFieldWidget(fieldName: "switch"),
+//              CheckboxSchemaFormFieldWidget(fieldName: "Checkbox"),
+//              CheckboxSchemaFormFieldWidget(fieldName: "Checkbox1"),
+//              TextSchemaFormFieldWidget(fieldName: "date"),
+//              TextSchemaFormFieldWidget(fieldName: "datetime"),
+//              TextSchemaFormFieldWidget(fieldName: "time"),
+//              RaisedButton(onPressed: savePressed, child: Text("Save")),
+//            ],
+//          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.save),
+        onPressed: _savePressed,
+      ),
+    );
+  }
 
-Widget _getDynamicItens(BuildContext context, FileLocate fileLocate,
-    String title, String filePath) {
-  return ListTile(
-    title: Text(title),
-    onTap: () => Navigator.of(context).popAndPushNamed(
-      "dynamic",
-      arguments: {
-        "title": title,
-        "fileLocate": fileLocate,
-        "filePath": filePath,
-      },
-    ),
-  );
-}
+  void _savePressed() {
+    final schemaFormState = _schemaFormKey.currentState;
 
-Widget getDefaultAppBar(BuildContext context) {
-  final Map<String, dynamic> params = ModalRoute.of(context).settings.arguments;
+    final schemaFormSaved = schemaFormState.save();
 
-  return AppBar(
-    title: Text(params['title']),
-  );
+    _log.info("schemaFormSaved: $schemaFormSaved");
+  }
 }

@@ -8,6 +8,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/Legytma/schema_form)
 ![GitHub contributors](https://img.shields.io/github/contributors/Legytma/schema_form)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Legytma/schema_form)
+![Flutter CI](https://github.com/Legytma/schema_form/workflows/Flutter%20CI/badge.svg "Flutter CI")
 
 # Convert Json Schema to Form for Flutter apps
 
@@ -23,10 +24,7 @@
 
 ## What is it
 
-Schema_form is a Flutter package based on two other packages that produces forms dynamically interpreting JSON objects:
-
-* [dynamic_widget](https://pub.dev/packages/dynamic_widget) - Which builds forms through JSON interpretation;
-* [json_schema](https://pub.dev/packages/json_schema) - Identifying, defining and validating the properties of the object being edited.
+[schema_form](https://pub.dev/packages/schema_form "schema_form") is a Flutter package to produce forms dynamically by interpreting JSON Schemas based on the [json_schema](https://pub.dev/packages/json_schema "json_schema") package.
 
 ### Motivation
 A major difficulty for any application developer is to ensure that all users keep their applications up to date to ensure the same user experience and to reduce the time required to fix bugs.
