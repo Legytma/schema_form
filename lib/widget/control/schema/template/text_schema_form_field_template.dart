@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/subjects.dart';
 
-import '../../../../enum/PickerType.dart';
+import '../../../../enum/picker_type.dart';
 import '../text_schema_form_field_widget.dart';
 import 'widget_template.dart';
 

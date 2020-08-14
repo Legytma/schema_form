@@ -21,7 +21,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../enum/PickerType.dart';
+import '../../../../enum/picker_type.dart';
 import '../schema_form_widget.dart';
 import '../text_schema_form_field_widget.dart';
 import 'schema_form_widget_state.dart';
@@ -98,7 +98,7 @@ class TextSchemaFormFieldWidgetState extends State<TextSchemaFormFieldWidget> {
     if (_pickerType == null &&
         _fieldSchema.format != null &&
         _fieldSchema.format == "date-time") {
-      _pickerType = PickerType.DateTimePicker;
+      _pickerType = PickerType.dateTimePicker;
     }
 
     if (widget.dateFormat != null) {
@@ -106,13 +106,13 @@ class TextSchemaFormFieldWidgetState extends State<TextSchemaFormFieldWidget> {
       _dateFormatDefault = DateFormat("y-MM-dd hh:mm:ss");
     } else if (_pickerType != null) {
       switch (_pickerType) {
-        case PickerType.DateTimePicker:
+        case PickerType.dateTimePicker:
           _dateFormat = DateFormat("y-MM-dd hh:mm:ss");
           break;
-        case PickerType.DatePicker:
+        case PickerType.datePicker:
           _dateFormat = DateFormat("y-MM-dd");
           break;
-        case PickerType.TimePicker:
+        case PickerType.timePicker:
           _dateFormat = DateFormat("hh:mm:ss");
       }
       _dateFormatDefault = DateFormat("y-MM-dd hh:mm:ss");
@@ -183,15 +183,15 @@ class TextSchemaFormFieldWidgetState extends State<TextSchemaFormFieldWidget> {
             _log.warning("Ignoring invalid value: $currentValue -> $e");
           }
 
-          if (_pickerType == PickerType.DateTimePicker ||
-              _pickerType == PickerType.DatePicker) {
+          if (_pickerType == PickerType.dateTimePicker ||
+              _pickerType == PickerType.datePicker) {
             showDatePicker(
               context: context,
               initialDate: currentDateTime,
               firstDate: DateTime(1900),
               lastDate: DateTime(2099),
             ).then((dateValue) {
-              if (_pickerType == PickerType.DateTimePicker) {
+              if (_pickerType == PickerType.dateTimePicker) {
                 showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.fromDateTime(currentDateTime),
@@ -213,7 +213,7 @@ class TextSchemaFormFieldWidgetState extends State<TextSchemaFormFieldWidget> {
                 _controller.add(dateValueString);
               }
             });
-          } else if (_pickerType == PickerType.TimePicker) {
+          } else if (_pickerType == PickerType.timePicker) {
             showTimePicker(
               context: context,
               initialTime: TimeOfDay.fromDateTime(currentDateTime),

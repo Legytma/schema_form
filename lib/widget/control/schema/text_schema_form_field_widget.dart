@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../enum/PickerType.dart';
+import '../../../enum/picker_type.dart';
 import 'state/text_schema_form_field_widget_state.dart';
 
 /// Schema text form field é um envelopamento do widget [TextFormField]
