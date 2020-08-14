@@ -14,3 +14,5 @@ flutter_export_environment.sh
 node_modules
 *.old
 .flutter-plugins-dependencies
+doc
+lefthook-local.yml
