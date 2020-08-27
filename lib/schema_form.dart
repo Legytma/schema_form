@@ -250,7 +250,8 @@ class SchemaForm extends StatelessWidget {
         final fieldDefaultValue = fieldSchema.defaultValue;
 
         if (fieldDefaultValue != null) {
-          if (fieldSchema.type == SchemaType.string &&
+          if (fieldSchema.typeList != null &&
+              fieldSchema.type == SchemaType.string &&
               fieldSchema.format == 'date-time') {
             try {
               final dateTimeFormat = DateFormat("yyyy-MM-dd hh:mm:ss");
@@ -275,7 +276,7 @@ class SchemaForm extends StatelessWidget {
           } else {
             value[fieldName] = fieldDefaultValue;
           }
-        } else if (fieldSchema.typeList.isNotEmpty) {
+        } else if (fieldSchema.typeList != null) {
           switch (fieldSchema.type) {
             case SchemaType.boolean:
               value[fieldName] = false;
