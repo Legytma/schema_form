@@ -45,10 +45,19 @@ class SchemaForm extends StatelessWidget {
   /// Layout Builder
   final SchemaFormLayoutBuilder builder;
 
+  /// Changed event
   final Function(Map<String, dynamic>) onChanged;
+
+  /// Will Pop event
   final WillPopCallback onWillPop;
+
+  /// Read Only form
   final bool readOnly;
+
+  /// Auto Validate form
   final bool autovalidate;
+
+  /// Initial Value on form
   final Map<String, dynamic> initialValue;
 
   /// Map of Builders by Schema Type
@@ -94,7 +103,7 @@ class SchemaForm extends StatelessWidget {
     var fields = <Widget>[];
 
     jsonSchema.properties.forEach((fieldName, fieldJsonSchema) {
-      var fieldBuilder = _makeEditTextBuilder;
+      var fieldBuilder;
 
       if (fieldBuilderMap != null && fieldBuilderMap.containsKey(fieldName)) {
         fieldBuilder = fieldBuilderMap[fieldName];
@@ -113,21 +122,13 @@ class SchemaForm extends StatelessWidget {
                     fieldBuilder = _makeDateTimePickerBuilder;
                     break;
                   case 'uri':
-                    break;
                   case 'uri-reference':
-                    break;
                   case 'uri-template':
-                    break;
                   case 'email':
-                    break;
                   case 'ipv4':
-                    break;
                   case 'ipv6':
-                    break;
                   case 'hostname':
-                    break;
                   case 'json-pointer':
-                    break;
                   default:
                     fieldBuilder = _makeEditTextBuilder;
                 }
@@ -141,9 +142,9 @@ class SchemaForm extends StatelessWidget {
               case SchemaType.boolean:
                 fieldBuilder = _makeCheckboxBuilder;
                 break;
-              case SchemaType.boolean:
-                fieldBuilder = _makeCheckboxBuilder;
-                break;
+              // case SchemaType.boolean:
+              //   fieldBuilder = _makeCheckboxBuilder;
+              //   break;
             }
           }
           // ignore: avoid_catches_without_on_clauses
@@ -152,13 +153,15 @@ class SchemaForm extends StatelessWidget {
         }
       }
 
-      fields.add(Selector<SchemaForm, JsonSchema>(
-        selector: (selectorContext, schemaForm) =>
-            schemaForm.jsonSchema.properties[fieldName],
-        builder: (buildContext, value, child) =>
-            fieldBuilder(buildContext, fieldName, fieldJsonSchema),
-      ));
-      // fields.add(fieldBuilder(context, fieldName, fieldJsonSchema));
+      if (fieldBuilder != null) {
+        fields.add(Selector<SchemaForm, JsonSchema>(
+          selector: (selectorContext, schemaForm) =>
+              schemaForm.jsonSchema.properties[fieldName],
+          builder: (buildContext, value, child) =>
+              fieldBuilder(buildContext, fieldName, fieldJsonSchema),
+        ));
+        // fields.add(fieldBuilder(context, fieldName, fieldJsonSchema));
+      }
     });
 
     return fields;

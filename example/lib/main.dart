@@ -39,6 +39,8 @@ Future<void> main() async {
       zone: rec.zone));
 
   if (formType == "FormBuilder") {
+    await initializeDateFormatting("pt_BR", null);
+
     runApp(MyAppFormBuilder());
   } else {
     await initializeDateFormatting("pt_BR", null);

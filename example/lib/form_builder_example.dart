@@ -18,8 +18,12 @@ import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:schema_form/schema_form.dart';
+import 'package:json_schema/src/json_schema/global_platform_functions.dart';
 
 import 'package:schema_form/schema_property_value_selector.dart';
+
+import 'json_schema_resolver.dart';
+import 'resolver/base_cache_manager_json_schema_resolver.dart';
 
 class MyAppFormBuilder extends StatelessWidget {
   @override
@@ -37,6 +41,7 @@ class MyFormBuilderHomePage extends StatelessWidget {
 
   final GlobalKey<FormBuilderState> formBuilderKey =
       GlobalKey<FormBuilderState>();
+
   final formJsonSchema = JsonSchema.createSchema(
     {
       "\$schema": "http://json-schema.org/draft-06/schema#",
@@ -133,7 +138,17 @@ class MyFormBuilderHomePage extends StatelessWidget {
     },
   );
 
-  MyFormBuilderHomePage({Key key, this.title}) : super(key: key);
+  MyFormBuilderHomePage({Key key, this.title}) : super(key: key) {
+    // SchemaWidget.registerParsers();
+    // configureJsonSchemaForBrowser();
+
+    var jsonSchemaResolver = BaseCacheManagerJsonSchemaResolver(
+      JsonSchemaResolverStatistics(),
+      JsonSchemaDefaultCacheManager(),
+    );
+
+    globalCreateJsonSchemaFromUrl = jsonSchemaResolver.createSchemaFromUrl;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,58 +160,73 @@ class MyFormBuilderHomePage extends StatelessWidget {
           IconButton(icon: Icon(Icons.delete), onPressed: _resetPressed),
         ],
       ),
-      body: SchemaForm(
-        formKey: formBuilderKey,
-        jsonSchema: formJsonSchema,
-        autovalidate: false,
-        initialValue: <String, dynamic>{},
-        builder: (buildContext, fields) {
-          var children = <Widget>[
-            SchemaPropertyValueSelector<String>(
-              dataAddress: "title",
-              defaultValue: "",
-              builder: (selectorContext, value, child) {
-                return Text(
-                  value,
-                  style: Theme.of(selectorContext).textTheme.headline6,
-                );
-              },
-            ),
-            SchemaPropertyValueSelector<String>(
-              dataAddress: "description",
-              defaultValue: "",
-              builder: (selectorContext, value, child) {
-                return Text(
-                  value,
-                  style: Theme.of(selectorContext).textTheme.headline6,
-                );
-              },
-            ),
-          ];
+      body: FutureBuilder<JsonSchema>(
+        future: JsonSchema.createSchemaFromUrl(
+          "https://schema.legytma.com.br/2.0.0/schema/widget/material_app.schema.json",
+        ),
+        builder: (futureContext, snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
 
-          children.addAll(fields);
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-          children.add(
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("Submit"),
-                  onPressed: _savePressed,
+          return SchemaForm(
+            formKey: formBuilderKey,
+            jsonSchema: snapshot.data,
+            autovalidate: false,
+            initialValue: <String, dynamic>{},
+            builder: (buildContext, fields) {
+              var children = <Widget>[
+                SchemaPropertyValueSelector<String>(
+                  dataAddress: "title",
+                  defaultValue: "",
+                  builder: (selectorContext, value, child) {
+                    return Text(
+                      value,
+                      style: Theme.of(selectorContext).textTheme.headline6,
+                    );
+                  },
                 ),
-                RaisedButton(
-                  child: Text("Reset"),
-                  onPressed: _resetPressed,
+                SchemaPropertyValueSelector<String>(
+                  dataAddress: "description",
+                  defaultValue: "",
+                  builder: (selectorContext, value, child) {
+                    return Text(
+                      value,
+                      style: Theme.of(selectorContext).textTheme.headline6,
+                    );
+                  },
                 ),
-              ],
-            ),
-          );
+              ];
 
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              children: children,
-            ),
+              children.addAll(fields);
+
+              children.add(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("Submit"),
+                      onPressed: _savePressed,
+                    ),
+                    RaisedButton(
+                      child: Text("Reset"),
+                      onPressed: _resetPressed,
+                    ),
+                  ],
+                ),
+              );
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: children,
+                ),
+              );
+            },
           );
         },
       ),
