@@ -19,8 +19,7 @@ import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/subjects.dart';
 
-import '../../../sub_title_text_schema_form_widget.dart';
-import '../../../title_text_schema_form_widget.dart';
+import '../../../../schema_form.dart';
 import '../check_box_schema_form_field_widget.dart';
 import '../schema_form_widget.dart';
 import '../text_schema_form_field_widget.dart';
@@ -110,8 +109,26 @@ class SchemaFormWidgetState extends State<SchemaFormWidget> {
     var children = <Widget>[];
 
     if (widget.defaultHeader) {
-      children.add(TitleTextSchemaFormWidget());
-      children.add(SubTitleTextSchemaFormWidget());
+      children.add(SchemaPropertyValueSelector<String>(
+        dataAddress: "title",
+        defaultValue: "",
+        builder: (selectorContext, value, child) {
+          return Text(
+            value,
+            style: Theme.of(selectorContext).textTheme.headline6,
+          );
+        },
+      ));
+      children.add(SchemaPropertyValueSelector<String>(
+        dataAddress: "description",
+        defaultValue: "",
+        builder: (selectorContext, value, child) {
+          return Text(
+            value,
+            style: Theme.of(selectorContext).textTheme.subtitle2,
+          );
+        },
+      ));
     }
 
     if (jsonSchema.properties.isNotEmpty) {

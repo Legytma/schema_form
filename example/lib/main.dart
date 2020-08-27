@@ -16,13 +16,16 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:generate_form/form_builder_example.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:json_schema/json_schema.dart';
 import 'package:logging/logging.dart';
-import 'package:schema_form/enum/PickerType.dart';
+import 'package:schema_form/enum/picker_type.dart';
 import 'package:schema_form/schema_form.dart';
 import 'package:schema_form/widget/control/schema/template/switch_schema_form_field_template.dart';
 import 'package:schema_form/widget/control/schema/template/text_schema_form_field_template.dart';
+
+const formType = "FormBuilder";
 
 Future<void> main() async {
   Logger.root.level = Level.ALL;
@@ -35,9 +38,13 @@ Future<void> main() async {
       time: rec.time,
       zone: rec.zone));
 
-  await initializeDateFormatting("pt_BR", null);
+  if (formType == "FormBuilder") {
+    runApp(MyAppFormBuilder());
+  } else {
+    await initializeDateFormatting("pt_BR", null);
 
-  runApp(MyApp());
+    runApp(MyApp());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -58,102 +65,110 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
-  final formJsonSchema = JsonSchema.createSchema(
-    {
-      "\$schema": "http://json-schema.org/draft-06/schema#",
-      "title": "Example of use",
-      "description": "A simple example of JSON Schema Dynamic Layout Form",
-      "type": "object",
-      "required": ["higroup", "email", "password", "Checkbox", "radiobuton1"],
-      "properties": {
-        "higroup": {
-          "type": "string",
-          "title": "Hi Group",
-          "default": "Hi Group flutter"
-        },
-        "password": {"type": "string", "title": "Password"},
-        "email": {
-          "type": "string",
-          "title": "Email test",
-          "default": "hola a todos",
-          "format": "email"
-        },
-        "url": {
-          "type": "string",
-          "title": "URL",
-          "default": "hola a todos",
-          "format": "uri"
-        },
-        "tareatexttest": {
-          "type": "string",
-          "title": "TareaText test",
-          "default": "hola a todos"
-        },
-        "radiobuton1": {
-          "type": "integer",
-          "title": "Radio Button test 1",
-          "enum": [1, 2, 3],
-        },
-        "radiobuton2": {
-          "type": "integer",
-          "title": "Radio Button test 2",
-          "enum": [1, 2, 3],
-        },
-        "switch": {"type": "boolean", "title": "Switch test", "const": true},
-        "Checkbox": {
-          "type": "boolean",
-          "title": "Checkbox test",
-        },
-        "Checkbox1": {
-          "type": "boolean",
-          "title": "Checkbox test 2",
-        },
-        "dropdownstring": {
-          "type": "string",
-          "title": "DropdownString test",
-          "enum": ["item1", "item2", "item3"],
-        },
-        "dropdownnumber": {
-          "type": "number",
-          "title": "DropdownNumber test",
-          "enum": [1, 2, 3, 3.5],
-        },
-        "liststring": {
-          "type": "string",
-          "title": "List String",
-          "default": "Item",
-        },
-        "listnumber": {
-          "type": "number",
-          "title": "List Number",
-          "default": "0",
-        },
-        "date": {
-          "type": "string",
-          "title": "Date",
-          "default": "1900-01-01",
-          "tooltip": "Date",
-          "format": "date-time"
-        },
-        "datetime": {
-          "type": "string",
-          "title": "Date Time",
-          "default": "1900-01-01 00:00:00",
-          "tooltip": "Date Time",
-          "format": "date-time"
-        },
-        "time": {
-          "type": "string",
-          "title": "Time",
-          "default": "00:00:00",
-          "tooltip": "Time",
-          "format": "date-time"
-        }
-      }
-    },
-  );
+  JsonSchema formJsonSchema;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+//  final formJsonSchema = JsonSchema.createSchema(
+//    {
+//      "\$schema": "http://json-schema.org/draft-06/schema#",
+//      "title": "Example of use",
+//      "description": "A simple example of JSON Schema Dynamic Layout Form",
+//      "type": "object",
+//      "required": ["higroup", "email", "password", "Checkbox", "radiobuton1"],
+//      "properties": {
+//        "higroup": {
+//          "type": "string",
+//          "title": "Hi Group",
+//          "default": "Hi Group flutter"
+//        },
+//        "password": {"type": "string", "title": "Password"},
+//        "email": {
+//          "type": "string",
+//          "title": "Email test",
+//          "default": "hola a todos",
+//          "format": "email"
+//        },
+//        "url": {
+//          "type": "string",
+//          "title": "URL",
+//          "default": "hola a todos",
+//          "format": "uri"
+//        },
+//        "tareatexttest": {
+//          "type": "string",
+//          "title": "TareaText test",
+//          "default": "hola a todos"
+//        },
+//        "radiobuton1": {
+//          "type": "integer",
+//          "title": "Radio Button test 1",
+//          "enum": [1, 2, 3],
+//        },
+//        "radiobuton2": {
+//          "type": "integer",
+//          "title": "Radio Button test 2",
+//          "enum": [1, 2, 3],
+//        },
+//        "switch": {"type": "boolean", "title": "Switch test", "const": true},
+//        "Checkbox": {
+//          "type": "boolean",
+//          "title": "Checkbox test",
+//        },
+//        "Checkbox1": {
+//          "type": "boolean",
+//          "title": "Checkbox test 2",
+//        },
+//        "dropdownstring": {
+//          "type": "string",
+//          "title": "DropdownString test",
+//          "enum": ["item1", "item2", "item3"],
+//        },
+//        "dropdownnumber": {
+//          "type": "number",
+//          "title": "DropdownNumber test",
+//          "enum": [1, 2, 3, 3.5],
+//        },
+//        "liststring": {
+//          "type": "string",
+//          "title": "List String",
+//          "default": "Item",
+//        },
+//        "listnumber": {
+//          "type": "number",
+//          "title": "List Number",
+//          "default": "0",
+//        },
+//        "date": {
+//          "type": "string",
+//          "title": "Date",
+//          "default": "1900-01-01",
+//          "tooltip": "Date",
+//          "format": "date-time"
+//        },
+//        "datetime": {
+//          "type": "string",
+//          "title": "Date Time",
+//          "default": "1900-01-01 00:00:00",
+//          "tooltip": "Date Time",
+//          "format": "date-time"
+//        },
+//        "time": {
+//          "type": "string",
+//          "title": "Time",
+//          "default": "00:00:00",
+//          "tooltip": "Time",
+//          "format": "date-time"
+//        }
+//      }
+//    },
+//  );
+
+  MyHomePage({Key key, this.title}) : super(key: key) {
+    JsonSchema.createSchemaFromUrl(
+      "https://schema.legytma.com.br/2.0.0/schema/widget/app_bar.schema.json",
+    ).then((value) {
+      formJsonSchema = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,15 +199,15 @@ class MyHomePage extends StatelessWidget {
             obscureText: true,
           ),
           "date": TextSchemaFormFieldTemplate(
-            pickerType: PickerType.DatePicker,
+            pickerType: PickerType.datePicker,
             dateFormat: "dd/MM/y",
           ),
           "datetime": TextSchemaFormFieldTemplate(
-            pickerType: PickerType.DateTimePicker,
+            pickerType: PickerType.dateTimePicker,
             dateFormat: "dd/MM/y hh:mm:ss",
           ),
           "time": TextSchemaFormFieldTemplate(
-            pickerType: PickerType.TimePicker,
+            pickerType: PickerType.timePicker,
             dateFormat: "hh:mm:ss",
           ),
         },

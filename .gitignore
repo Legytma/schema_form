@@ -16,3 +16,5 @@ node_modules
 .flutter-plugins-dependencies
 doc
 lefthook-local.yml
+.metadata
+launch.json
