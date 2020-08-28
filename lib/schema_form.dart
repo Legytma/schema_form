@@ -83,8 +83,11 @@ class SchemaForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<SchemaForm>.value(
-      value: this,
+    return MultiProvider(
+      providers: [
+        Provider<SchemaForm>.value(value: this),
+        Provider<JsonSchema>.value(value: jsonSchema),
+      ],
       child: FormBuilder(
         key: formKey,
         onChanged: onChanged,

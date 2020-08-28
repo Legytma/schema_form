@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:json_schema/json_schema.dart';
 import 'package:provider/provider.dart';
 
 import 'schema_form.dart';
 
 /// Schema Property Value Selector
-class SchemaPropertyValueSelector<T> extends Selector<SchemaForm, T> {
+class SchemaPropertyValueSelector<T> extends Selector<JsonSchema, T> {
   /// Value used on null
   final T defaultValue;
 
@@ -23,7 +24,7 @@ class SchemaPropertyValueSelector<T> extends Selector<SchemaForm, T> {
           builder: builder,
           selector: (selectorContext, value) {
             var addressList = dataAddress.split(".");
-            Map<String, dynamic> schemaMap = value?.jsonSchema?.schemaMap;
+            Map<String, dynamic> schemaMap = value?.schemaMap;
 
             return _getSchemaValue(schemaMap, addressList, 0, defaultValue);
           },
